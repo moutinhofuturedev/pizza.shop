@@ -21,7 +21,7 @@ export const AlertModal = () => {
       <AlertDialogTrigger asChild>
         <Button
           variant="ghost"
-          className="flex w-full justify-start text-rose-500 dark:text-rose-400"
+          className="flex w-full justify-start pl-2 text-rose-500 dark:text-rose-400"
         >
           <LogOut className="mr-2 h-4 w-4" />
           <span>Sair</span>
