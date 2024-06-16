@@ -16,9 +16,19 @@ import {
 
 interface OrderIdProps {
   orderId: string
+  clientName: string
+  phone: string
+  email: string
+  orderTime: string
 }
 
-export const OrderDetails = ({ orderId }: OrderIdProps) => {
+export const OrderDetails = ({
+  orderId,
+  clientName,
+  phone,
+  email,
+  orderTime,
+}: OrderIdProps) => {
   return (
     <DialogContent>
       <DialogHeader>
@@ -43,30 +53,24 @@ export const OrderDetails = ({ orderId }: OrderIdProps) => {
 
             <TableRow>
               <TableCell className="text-muted-foreground">Cliente</TableCell>
-              <TableCell className="flex justify-end">
-                Paulo Moutinho Vitor
-              </TableCell>
+              <TableCell className="flex justify-end">{clientName}</TableCell>
             </TableRow>
 
             <TableRow>
               <TableCell className="text-muted-foreground">Telefone</TableCell>
-              <TableCell className="flex justify-end">
-                (11) 99999-9999
-              </TableCell>
+              <TableCell className="flex justify-end">{phone}</TableCell>
             </TableRow>
 
             <TableRow>
               <TableCell className="text-muted-foreground">Email</TableCell>
-              <TableCell className="flex justify-end">
-                paulo_vicali@icloud.com
-              </TableCell>
+              <TableCell className="flex justify-end">{email}</TableCell>
             </TableRow>
 
             <TableRow>
               <TableCell className="text-muted-foreground">
                 Realizado há
               </TableCell>
-              <TableCell className="flex justify-end">Há 15 minutos</TableCell>
+              <TableCell className="flex justify-end">{orderTime}</TableCell>
             </TableRow>
           </TableBody>
         </Table>

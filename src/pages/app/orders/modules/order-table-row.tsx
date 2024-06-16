@@ -1,3 +1,9 @@
+/* eslint-disable camelcase */
+import 'dayjs/locale/pt-br'
+
+import { faker, fakerPT_BR } from '@faker-js/faker'
+import dayjs from 'dayjs'
+import relativeTimes from 'dayjs/plugin/relativeTime'
 import { ArrowRight, Ban, Search } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
@@ -6,11 +12,24 @@ import { TableCell, TableRow } from '@/components/ui/table'
 
 import { OrderDetails } from './order-details'
 
-interface OrderIdProps {
-  orderId: string
-}
+dayjs.extend(relativeTimes)
+dayjs.locale('pt-br')
 
-export const OrderTableRow = ({ orderId }: OrderIdProps) => {
+export const OrderTableRow = () => {
+  const tableInfo = {
+    randomOrderId: faker.random.alphaNumeric(20),
+    orderTime: dayjs().to(fakerPT_BR.date.recent({ days: 1 })),
+    clientName: fakerPT_BR.person.fullName(),
+    totalOrder: fakerPT_BR.commerce.price({
+      min: 100,
+      max: 280,
+      symbol: 'R$',
+      dec: 2,
+    }),
+    phone: fakerPT_BR.phone.number(),
+    email: fakerPT_BR.internet.email({ allowSpecialCharacters: false }),
+  }
+
   return (
     <TableRow>
       <TableCell>
@@ -22,13 +41,23 @@ export const OrderTableRow = ({ orderId }: OrderIdProps) => {
             </Button>
           </DialogTrigger>
 
-          <OrderDetails orderId={orderId} />
+          <OrderDetails
+            orderId={tableInfo.randomOrderId}
+            clientName={tableInfo.clientName}
+            phone={tableInfo.phone}
+            email={tableInfo.email}
+            orderTime={tableInfo.orderTime}
+          />
         </Dialog>
       </TableCell>
 
-      <TableCell className="font-mono text-xs font-medium">{orderId}</TableCell>
+      <TableCell className="font-mono text-xs font-medium">
+        {tableInfo.randomOrderId}
+      </TableCell>
 
-      <TableCell className="text-muted-foreground">Há 15 minutos</TableCell>
+      <TableCell className="text-muted-foreground">
+        {tableInfo.orderTime}
+      </TableCell>
 
       <TableCell>
         <div className="flex items-center gap-2">
@@ -37,9 +66,9 @@ export const OrderTableRow = ({ orderId }: OrderIdProps) => {
         </div>
       </TableCell>
 
-      <TableCell className="font-medium">Paulo Moutinho Vitor</TableCell>
+      <TableCell className="font-medium">{tableInfo.clientName}</TableCell>
 
-      <TableCell className="font-medium">R$ 99,99</TableCell>
+      <TableCell className="font-medium">{tableInfo.totalOrder}</TableCell>
 
       <TableCell>
         <Button variant="outline" size="xs">

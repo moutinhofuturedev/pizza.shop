@@ -41,7 +41,7 @@ export const Orders = () => {
 
               <TableBody>
                 {Array.from({ length: 5 }).map(() => (
-                  <OrderTableRow key={orderId} orderId={orderId} />
+                  <OrderTableRow key={orderId} />
                 ))}
               </TableBody>
             </Table>
