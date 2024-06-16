@@ -20,6 +20,7 @@ export const SignIn = () => {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
+    reset,
   } = useForm<SignInFormSchema>({
     resolver: zodResolver(signInFormSchema),
   })
@@ -35,6 +36,8 @@ export const SignIn = () => {
           onClick: () => handleSubmitForm(data),
         },
       })
+
+      reset()
     } catch {
       toast.error('Erro ao enviar o link de autenticação')
     }
