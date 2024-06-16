@@ -8,7 +8,7 @@ import { Separator } from '../ui/separator'
 export const Header = () => {
   return (
     <div className="border-b">
-      <div className="flex h-16 items-center gap-6 px-6 max-sm:justify-center max-sm:gap-3">
+      <div className="flex h-16 items-center gap-6 px-6 max-md:justify-center max-md:gap-3">
         <Pizza className="h-6 w-6 max-sm:hidden" />
 
         <Separator orientation="vertical" className="h-6 max-sm:hidden" />
