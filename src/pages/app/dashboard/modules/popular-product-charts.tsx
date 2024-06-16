@@ -13,8 +13,6 @@ const data = [
   { product: 'Atum', amount: faker.number.int({ min: 50, max: 180 }) },
 ]
 
-faker.commerce.productName()
-
 const COLORS = [
   colors.blue[500],
   colors.red[500],

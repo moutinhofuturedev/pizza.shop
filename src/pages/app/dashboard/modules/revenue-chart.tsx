@@ -27,8 +27,6 @@ const data = [
   { date: '07/12', revenue: faker.number.int({ min: 1000, max: 10000 }) },
 ]
 
-console.log(data[0].revenue)
-
 export const RevenueChart = () => {
   return (
     <Card className="col-span-6">
