@@ -1,10 +1,12 @@
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useMutation } from '@tanstack/react-query'
 import { Helmet } from 'react-helmet-async'
 import { useForm } from 'react-hook-form'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
+import { registerRestaurant } from '@/api/auth/register-restaurant'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -20,6 +22,7 @@ type SignUpFormSchema = z.infer<typeof signUpFormSchema>
 
 export const SignUp = () => {
   const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
   const {
     register,
     handleSubmit,
@@ -27,18 +30,28 @@ export const SignUp = () => {
     formState: { isSubmitting },
   } = useForm<SignUpFormSchema>({
     resolver: zodResolver(signUpFormSchema),
+    defaultValues: {
+      email: searchParams.get('email') ?? '',
+    },
+  })
+
+  const { mutateAsync: registerRestaurantFn } = useMutation({
+    mutationFn: registerRestaurant,
   })
 
   const handleSubmitForm = async (data: SignUpFormSchema) => {
     try {
-      await new Promise((resolve) => setTimeout(resolve, 2000))
-
-      console.log(data)
+      await registerRestaurantFn({
+        restaurantName: data.restaurantName,
+        managerName: data.managerName,
+        email: data.email,
+        phone: data.phone,
+      })
 
       toast.success('Estabelecimento registrado com sucesso!', {
         action: {
           label: 'Fazer login',
-          onClick: () => navigate('/user/sign-in'),
+          onClick: () => navigate(`/user/sign-in?email=${data.email}`),
         },
       })
 
@@ -87,12 +100,7 @@ export const SignUp = () => {
 
           <div className="space-y-1">
             <Label htmlFor="email">Seu e-mail</Label>
-            <Input
-              id="email"
-              type="email"
-              autoComplete="off"
-              {...register('email')}
-            />
+            <Input id="email" type="email" {...register('email')} />
           </div>
 
           <div className="space-y-1">
