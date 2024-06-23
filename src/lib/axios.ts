@@ -5,6 +5,7 @@ import { env } from '@/env'
 export const api: AxiosInstance = axios.create({
   baseURL: env.VITE_BASE_URL,
   timeout: 1000,
+  withCredentials: true,
 })
 
 api.interceptors.response.use(
