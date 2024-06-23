@@ -17,7 +17,7 @@ dayjs.locale('pt-br')
 
 export const OrderTableRow = () => {
   const tableInfo = {
-    randomOrderId: faker.random.alphaNumeric(20),
+    randomOrderId: faker.string.alphanumeric(20),
     orderTime: dayjs().to(fakerPT_BR.date.recent({ days: 1 })),
     clientName: fakerPT_BR.person.fullName(),
     totalOrder: fakerPT_BR.commerce.price({
