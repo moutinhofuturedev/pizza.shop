@@ -6,7 +6,7 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
-import { registerRestaurant } from '@/api/auth/register-restaurant'
+import { registerRestaurant } from '@/api/post/register-restaurant'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
