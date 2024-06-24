@@ -8,6 +8,28 @@ export const api: AxiosInstance = axios.create({
   withCredentials: true,
 })
 
+// Intercepta requisições
+api.interceptors.request.use(
+  async (config) => {
+    if (env.VITE_ENABLE_DELAY_API) {
+      await new Promise((resolve) => setTimeout(resolve, 2000))
+    }
+
+    const token = localStorage.getItem('token')
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`
+    }
+
+    console.log('Solicitação enviada:', config.url)
+    return config
+  },
+  (error) => {
+    console.error('Erro na configuração da solicitação:', error)
+    return Promise.reject(error)
+  },
+)
+
+// Intercepta respostas
 api.interceptors.response.use(
   (response: AxiosResponse): AxiosResponse => {
     console.log('Resposta de sucesso:', response.status, response.statusText)
