@@ -2,7 +2,7 @@ import './global.css'
 
 import { QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-import { Helmet, HelmetProvider } from 'react-helmet-async'
+import { HelmetProvider } from 'react-helmet-async'
 import { RouterProvider } from 'react-router-dom'
 import { Toaster } from 'sonner'
 
@@ -14,7 +14,7 @@ export const App = () => {
   return (
     <HelmetProvider>
       <ThemeProvider storageKey="pizzashop-theme" defaultTheme="system">
-        <Helmet titleTemplate="%s | pizza.shop" />
+        {/* <Helmet titleTemplate="%s | pizza.shop" /> */}
         <Toaster richColors />
         <QueryClientProvider client={queryClient}>
           <RouterProvider router={router} />
