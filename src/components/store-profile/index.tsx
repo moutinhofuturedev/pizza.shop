@@ -1,10 +1,13 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
-import { getManagedRestaurant } from '@/api/get/get-managed-restaurant'
+import {
+  getManagedRestaurant,
+  GetManagedRestaurantResponsePick,
+} from '@/api/get/get-managed-restaurant'
 import { updateStoreProfile } from '@/api/put/update-store-profile'
 
 import { Button } from '../ui/button'
@@ -28,6 +31,7 @@ const storeProfileSchema = z.object({
 type StoreProfileSchema = z.infer<typeof storeProfileSchema>
 
 export const StoreProfile = () => {
+  const queryClient = useQueryClient()
   const { data: managedRestaurant } = useQuery({
     queryKey: ['managed-restaurant'],
     queryFn: getManagedRestaurant,
@@ -36,6 +40,25 @@ export const StoreProfile = () => {
 
   const { mutateAsync: updateStoreProfileFn } = useMutation({
     mutationFn: updateStoreProfile,
+    // Este trecho de código define uma função onSuccess que é chamada após uma atualização bem-sucedida do perfil
+    onSuccess(_, { name, description }) {
+      // Obter os dados em cache do restaurante gerenciado
+      const cached = queryClient.getQueryData<GetManagedRestaurantResponsePick>(
+        ['managed-restaurant'],
+      )
+
+      if (cached) {
+        // Atualiza o nome e a descrição nos dados armazenados em cache
+        queryClient.setQueryData<GetManagedRestaurantResponsePick>(
+          ['managed-restaurant'],
+          {
+            ...cached,
+            name,
+            description,
+          },
+        )
+      }
+    },
   })
 
   const {
