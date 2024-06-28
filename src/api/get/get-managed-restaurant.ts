@@ -11,7 +11,7 @@ interface GetManagedRestaurantResponse {
 
 export type GetManagedRestaurantResponsePick = Pick<
   GetManagedRestaurantResponse,
-  'name'
+  'name' | 'description'
 >
 
 export const getManagedRestaurant = async () => {
