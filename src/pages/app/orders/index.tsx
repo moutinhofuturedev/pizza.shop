@@ -1,5 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { Helmet } from 'react-helmet-async'
+import { useSearchParams } from 'react-router-dom'
+import { z } from 'zod'
 
 import { getManagedRestaurant } from '@/api/get/get-managed-restaurant'
 import { getOrders } from '@/api/get/get-orders'
@@ -16,6 +18,23 @@ import { OrderTableFilter } from './modules/order-table-filter'
 import { OrderTableRow } from './modules/order-table-row'
 
 export const Orders = () => {
+  const [searchParams, setSearchParams] = useSearchParams()
+
+  const pageIndex = z.coerce
+    .number()
+    .transform((page) => page - 1)
+    .parse(searchParams.get('page') ?? '1')
+
+  const handlePaginate = (pageIndex: number) => {
+    setSearchParams((prev) => {
+      prev.set('page', String(pageIndex + 1))
+
+      return prev
+    })
+
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
   const { data: managedRestaurant, isLoading } = useQuery({
     queryKey: ['managed-restaurant'],
     queryFn: getManagedRestaurant,
@@ -23,8 +42,8 @@ export const Orders = () => {
   })
 
   const { data: orderResult } = useQuery({
-    queryKey: ['orders'],
-    queryFn: getOrders,
+    queryKey: ['orders', pageIndex],
+    queryFn: () => getOrders({ pageIndex }),
     staleTime: 1000 * 60, // 1 min
   })
 
@@ -62,7 +81,14 @@ export const Orders = () => {
               </TableBody>
             </Table>
           </div>
-          <Pagination pageIndex={0} totalCount={5} perPage={5} />
+          {orderResult && (
+            <Pagination
+              onPageChange={handlePaginate}
+              pageIndex={orderResult.meta.pageIndex}
+              totalCount={orderResult.meta.totalCount}
+              perPage={orderResult.meta.perPage}
+            />
+          )}
         </div>
       </div>
     </>
