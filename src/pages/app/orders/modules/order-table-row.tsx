@@ -1,7 +1,7 @@
 /* eslint-disable camelcase */
 import 'dayjs/locale/pt-br'
 
-import { faker, fakerPT_BR } from '@faker-js/faker'
+import { fakerPT_BR } from '@faker-js/faker'
 import dayjs from 'dayjs'
 import relativeTimes from 'dayjs/plugin/relativeTime'
 import { ArrowRight, Ban, Search } from 'lucide-react'
@@ -27,15 +27,6 @@ interface OrderTableRowProps {
 
 export const OrderTableRow = ({ order }: OrderTableRowProps) => {
   const tableInfo = {
-    randomOrderId: faker.string.alphanumeric(20),
-    orderTime: dayjs().to(fakerPT_BR.date.recent({ days: 1 })),
-    clientName: fakerPT_BR.person.fullName(),
-    totalOrder: fakerPT_BR.commerce.price({
-      min: 100,
-      max: 280,
-      symbol: 'R$',
-      dec: 2,
-    }),
     phone: fakerPT_BR.phone.number(),
     email: fakerPT_BR.internet.email({ allowSpecialCharacters: false }),
   }
