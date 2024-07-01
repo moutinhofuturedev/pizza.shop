@@ -11,7 +11,7 @@ import { PopularProductChart } from './modules/popular-product-charts'
 import { RevenueChart } from './modules/revenue-chart'
 
 export const Dashboard = () => {
-  const { data: managedRestaurant } = useQuery({
+  const { data: managedRestaurant, isLoading } = useQuery({
     queryKey: ['managed-restaurant'],
     queryFn: getManagedRestaurant,
     staleTime: Infinity,
@@ -19,7 +19,9 @@ export const Dashboard = () => {
 
   return (
     <>
-      <Helmet title={`Dashboard | ${managedRestaurant?.name}`} />
+      <Helmet
+        title={`Dashboard | ${isLoading ? 'Carregando...' : managedRestaurant?.name}`}
+      />
       <div className="flex flex-col gap-4">
         <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
 

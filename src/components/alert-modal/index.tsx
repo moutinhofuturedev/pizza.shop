@@ -30,6 +30,7 @@ export const AlertModal = () => {
     <AlertDialog>
       <AlertDialogTrigger asChild>
         <Button
+          disabled={isPending}
           variant="ghost"
           className="flex w-full justify-start pl-2 text-rose-500 dark:text-rose-400"
         >
@@ -47,7 +48,7 @@ export const AlertModal = () => {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={() => signOutFn()} disabled={isPending}>
+          <AlertDialogAction onClick={() => signOutFn()}>
             Continue
           </AlertDialogAction>
         </AlertDialogFooter>

@@ -17,7 +17,7 @@ import { OrderTableRow } from './modules/order-table-row'
 export const Orders = () => {
   const orderId = crypto.randomUUID()
 
-  const { data: managedRestaurant } = useQuery({
+  const { data: managedRestaurant, isLoading } = useQuery({
     queryKey: ['managed-restaurant'],
     queryFn: getManagedRestaurant,
     staleTime: Infinity,
@@ -25,7 +25,9 @@ export const Orders = () => {
 
   return (
     <>
-      <Helmet title={`Pedidos | ${managedRestaurant?.name}`} />
+      <Helmet
+        title={`Pedidos | ${isLoading ? 'Carregando...' : managedRestaurant?.name}`}
+      />
       <div className="flex flex-col gap-4">
         <h1 className="tracking-tight text-3xl font-bold">Pedidos</h1>
 
