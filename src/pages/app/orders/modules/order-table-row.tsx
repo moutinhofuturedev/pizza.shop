@@ -11,11 +11,21 @@ import { Dialog, DialogTrigger } from '@/components/ui/dialog'
 import { TableCell, TableRow } from '@/components/ui/table'
 
 import { OrderDetails } from './order-details'
+import { OrderStatus, OrderStatusType } from './order-status'
 
 dayjs.extend(relativeTimes)
-dayjs.locale('pt-br')
 
-export const OrderTableRow = () => {
+interface OrderTableRowProps {
+  order: {
+    orderId: string
+    createdAt: string
+    status: OrderStatusType
+    customerName: string
+    total: number
+  }
+}
+
+export const OrderTableRow = ({ order }: OrderTableRowProps) => {
   const tableInfo = {
     randomOrderId: faker.string.alphanumeric(20),
     orderTime: dayjs().to(fakerPT_BR.date.recent({ days: 1 })),
@@ -42,33 +52,36 @@ export const OrderTableRow = () => {
           </DialogTrigger>
 
           <OrderDetails
-            orderId={tableInfo.randomOrderId}
-            clientName={tableInfo.clientName}
+            orderId={order.orderId}
+            clientName={order.customerName}
             phone={tableInfo.phone}
             email={tableInfo.email}
-            orderTime={tableInfo.orderTime}
+            orderTime={dayjs(order.createdAt).locale('pt-br').fromNow()}
+            status={order.status}
           />
         </Dialog>
       </TableCell>
 
       <TableCell className="font-mono text-xs font-medium">
-        {tableInfo.randomOrderId}
+        {order.orderId}
       </TableCell>
 
       <TableCell className="text-muted-foreground">
-        {tableInfo.orderTime}
+        {dayjs(order.createdAt).locale('pt-br').fromNow()}
       </TableCell>
 
       <TableCell>
-        <div className="flex items-center gap-2">
-          <span className="h-2.5 w-2.5 rounded-full bg-slate-400"></span>
-          <span className="font-medium text-muted-foreground">Pendente</span>
-        </div>
+        <OrderStatus status={order.status} />
       </TableCell>
 
-      <TableCell className="font-medium">{tableInfo.clientName}</TableCell>
+      <TableCell className="font-medium">{order.customerName}</TableCell>
 
-      <TableCell className="font-medium">{tableInfo.totalOrder}</TableCell>
+      <TableCell className="font-medium">
+        {order.total.toLocaleString('pt-br', {
+          style: 'currency',
+          currency: 'BRL',
+        })}
+      </TableCell>
 
       <TableCell>
         <Button variant="outline" size="xs">

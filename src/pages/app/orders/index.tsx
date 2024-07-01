@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import { Helmet } from 'react-helmet-async'
 
 import { getManagedRestaurant } from '@/api/get/get-managed-restaurant'
+import { getOrders } from '@/api/get/get-orders'
 import { Pagination } from '@/components/pagination'
 import {
   Table,
@@ -15,12 +16,16 @@ import { OrderTableFilter } from './modules/order-table-filter'
 import { OrderTableRow } from './modules/order-table-row'
 
 export const Orders = () => {
-  const orderId = crypto.randomUUID()
-
   const { data: managedRestaurant, isLoading } = useQuery({
     queryKey: ['managed-restaurant'],
     queryFn: getManagedRestaurant,
     staleTime: Infinity,
+  })
+
+  const { data: orderResult } = useQuery({
+    queryKey: ['orders'],
+    queryFn: getOrders,
+    staleTime: 1000 * 60, // 1 min
   })
 
   return (
@@ -50,9 +55,10 @@ export const Orders = () => {
               </TableHeader>
 
               <TableBody>
-                {Array.from({ length: 5 }).map(() => (
-                  <OrderTableRow key={orderId} />
-                ))}
+                {orderResult &&
+                  orderResult.orders.map((order) => (
+                    <OrderTableRow key={order.orderId} order={order} />
+                  ))}
               </TableBody>
             </Table>
           </div>

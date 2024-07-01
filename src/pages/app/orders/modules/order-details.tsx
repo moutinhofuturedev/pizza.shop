@@ -14,12 +14,15 @@ import {
   TableRow,
 } from '@/components/ui/table'
 
+import { OrderStatus, OrderStatusType } from './order-status'
+
 interface OrderIdProps {
   orderId: string
   clientName: string
   phone: string
   email: string
   orderTime: string
+  status: OrderStatusType
 }
 
 export const OrderDetails = ({
@@ -28,6 +31,7 @@ export const OrderDetails = ({
   phone,
   email,
   orderTime,
+  status,
 }: OrderIdProps) => {
   return (
     <DialogContent>
@@ -42,12 +46,7 @@ export const OrderDetails = ({
             <TableRow>
               <TableCell className="text-muted-foreground">Status</TableCell>
               <TableCell className="flex justify-end">
-                <div className="flex items-center gap-2">
-                  <span className="h-2.5 w-2.5 rounded-full bg-slate-400"></span>
-                  <span className="font-medium text-muted-foreground">
-                    Pendente
-                  </span>
-                </div>
+                <OrderStatus status={status} />
               </TableCell>
             </TableRow>
 
@@ -86,12 +85,6 @@ export const OrderDetails = ({
           </TableHeader>
 
           <TableBody>
-            <TableRow>
-              <TableCell>Pizza Calabresa Família</TableCell>
-              <TableCell className="text-right">2</TableCell>
-              <TableCell className="text-right">R$ 99,99</TableCell>
-              <TableCell className="text-right">R$ 199,98</TableCell>
-            </TableRow>
             <TableRow>
               <TableCell>Pizza Peperoni</TableCell>
               <TableCell className="text-right">1</TableCell>
