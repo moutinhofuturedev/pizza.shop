@@ -20,6 +20,10 @@ import { OrderTableRow } from './modules/order-table-row'
 export const Orders = () => {
   const [searchParams, setSearchParams] = useSearchParams()
 
+  const orderId = searchParams.get('orderId')
+  const customerName = searchParams.get('customerName')
+  const status = searchParams.get('status')
+
   const pageIndex = z.coerce
     .number()
     .transform((page) => page - 1)
@@ -42,8 +46,14 @@ export const Orders = () => {
   })
 
   const { data: orderResult } = useQuery({
-    queryKey: ['orders', pageIndex],
-    queryFn: () => getOrders({ pageIndex }),
+    queryKey: ['orders', pageIndex, orderId, customerName, status],
+    queryFn: () =>
+      getOrders({
+        pageIndex,
+        orderId,
+        customerName,
+        status: status === 'all' ? null : status,
+      }),
     staleTime: 1000 * 60, // 1 min
   })
 
@@ -54,7 +64,6 @@ export const Orders = () => {
       />
       <div className="flex flex-col gap-4">
         <h1 className="tracking-tight text-3xl font-bold">Pedidos</h1>
-
         <div className="space-y-2.5">
           <OrderTableFilter />
 
