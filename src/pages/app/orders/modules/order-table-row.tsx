@@ -8,6 +8,7 @@ import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogTrigger } from '@/components/ui/dialog'
 import { TableCell, TableRow } from '@/components/ui/table'
+import { formatPrice } from '@/utils/format-price'
 
 import { OrderDetails } from './order-details'
 import { OrderStatus, OrderStatusType } from './order-status'
@@ -57,10 +58,7 @@ export const OrderTableRow = ({ order }: OrderTableRowProps) => {
       <TableCell className="font-medium">{order.customerName}</TableCell>
 
       <TableCell className="font-medium">
-        {order.total.toLocaleString('pt-br', {
-          style: 'currency',
-          currency: 'BRL',
-        })}
+        {formatPrice(order.total / 100)}
       </TableCell>
 
       <TableCell>

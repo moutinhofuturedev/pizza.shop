@@ -20,6 +20,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import { formatPrice } from '@/utils/format-price'
 
 import { OrderStatus } from './order-status'
 
@@ -106,16 +107,10 @@ export const OrderDetails = ({ orderId, open }: OrderIdProps) => {
                   <TableCell>{item.product.name}</TableCell>
                   <TableCell className="text-right">{item.quantity}</TableCell>
                   <TableCell className="text-right">
-                    {(item.priceInCents / 100).toLocaleString('pt-br', {
-                      style: 'currency',
-                      currency: 'BRL',
-                    })}
+                    {formatPrice(item.priceInCents / 100)}
                   </TableCell>
                   <TableCell className="text-right">
-                    {((item.priceInCents * item.quantity) / 100).toLocaleString(
-                      'pt-br',
-                      { style: 'currency', currency: 'BRL' },
-                    )}
+                    {formatPrice((item.priceInCents / 100) * item.quantity)}
                   </TableCell>
                 </TableRow>
               )
@@ -126,10 +121,7 @@ export const OrderDetails = ({ orderId, open }: OrderIdProps) => {
             <TableRow>
               <TableCell colSpan={3}>Total do pedido</TableCell>
               <TableCell className="text-right font-medium">
-                {(order.totalInCents / 100).toLocaleString('pt-br', {
-                  style: 'currency',
-                  currency: 'BRL',
-                })}
+                {formatPrice(order.totalInCents / 100)}
               </TableCell>
             </TableRow>
           </TableFooter>
