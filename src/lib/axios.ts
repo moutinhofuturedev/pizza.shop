@@ -4,7 +4,6 @@ import { env } from '@/env'
 
 export const api: AxiosInstance = axios.create({
   baseURL: env.VITE_BASE_URL,
-  timeout: 1000,
   withCredentials: true,
 })
 
@@ -12,7 +11,7 @@ export const api: AxiosInstance = axios.create({
 api.interceptors.request.use(
   async (config) => {
     if (env.VITE_ENABLE_DELAY_API) {
-      await new Promise((resolve) => setTimeout(resolve, 2000))
+      await new Promise((resolve) => setTimeout(resolve, 1000))
     }
 
     const token = localStorage.getItem('token')
