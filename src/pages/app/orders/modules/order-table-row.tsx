@@ -1,10 +1,9 @@
-/* eslint-disable camelcase */
 import 'dayjs/locale/pt-br'
 
-import { fakerPT_BR } from '@faker-js/faker'
 import dayjs from 'dayjs'
 import relativeTimes from 'dayjs/plugin/relativeTime'
 import { ArrowRight, Ban, Search } from 'lucide-react'
+import { useState } from 'react'
 
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogTrigger } from '@/components/ui/dialog'
@@ -26,15 +25,12 @@ interface OrderTableRowProps {
 }
 
 export const OrderTableRow = ({ order }: OrderTableRowProps) => {
-  const tableInfo = {
-    phone: fakerPT_BR.phone.number(),
-    email: fakerPT_BR.internet.email({ allowSpecialCharacters: false }),
-  }
+  const [isDetailsOpen, setIsDetailsOpen] = useState(false)
 
   return (
     <TableRow>
       <TableCell>
-        <Dialog>
+        <Dialog open={isDetailsOpen} onOpenChange={setIsDetailsOpen}>
           <DialogTrigger asChild>
             <Button variant="outline" size="xs">
               <Search className="h-3 w-3" />
@@ -42,14 +38,7 @@ export const OrderTableRow = ({ order }: OrderTableRowProps) => {
             </Button>
           </DialogTrigger>
 
-          <OrderDetails
-            orderId={order.orderId}
-            clientName={order.customerName}
-            phone={tableInfo.phone}
-            email={tableInfo.email}
-            orderTime={dayjs(order.createdAt).locale('pt-br').fromNow()}
-            status={order.status}
-          />
+          <OrderDetails open={isDetailsOpen} orderId={order.orderId} />
         </Dialog>
       </TableCell>
 

@@ -1,3 +1,10 @@
+import 'dayjs/locale/pt-br'
+
+import { useQuery } from '@tanstack/react-query'
+import dayjs from 'dayjs'
+import relativeTimes from 'dayjs/plugin/relativeTime'
+
+import { getOrderDetails } from '@/api/get/get-order-details'
 import {
   DialogContent,
   DialogDescription,
@@ -14,25 +21,25 @@ import {
   TableRow,
 } from '@/components/ui/table'
 
-import { OrderStatus, OrderStatusType } from './order-status'
+import { OrderStatus } from './order-status'
+
+dayjs.extend(relativeTimes)
 
 interface OrderIdProps {
   orderId: string
-  clientName: string
-  phone: string
-  email: string
-  orderTime: string
-  status: OrderStatusType
+  open: boolean
 }
 
-export const OrderDetails = ({
-  orderId,
-  clientName,
-  phone,
-  email,
-  orderTime,
-  status,
-}: OrderIdProps) => {
+export const OrderDetails = ({ orderId, open }: OrderIdProps) => {
+  const { data: order } = useQuery({
+    queryKey: ['order', orderId],
+    queryFn: () => getOrderDetails({ orderId }),
+    staleTime: 1000 * 60, // 1 min
+    enabled: open,
+  })
+
+  if (!order) return null
+
   return (
     <DialogContent>
       <DialogHeader>
@@ -46,30 +53,38 @@ export const OrderDetails = ({
             <TableRow>
               <TableCell className="text-muted-foreground">Status</TableCell>
               <TableCell className="flex justify-end">
-                <OrderStatus status={status} />
+                <OrderStatus status={order.status} />
               </TableCell>
             </TableRow>
 
             <TableRow>
               <TableCell className="text-muted-foreground">Cliente</TableCell>
-              <TableCell className="flex justify-end">{clientName}</TableCell>
+              <TableCell className="flex justify-end">
+                {order.customer.name}
+              </TableCell>
             </TableRow>
 
             <TableRow>
               <TableCell className="text-muted-foreground">Telefone</TableCell>
-              <TableCell className="flex justify-end">{phone}</TableCell>
+              <TableCell className="flex justify-end">
+                {order.customer.phone || 'Não informado'}
+              </TableCell>
             </TableRow>
 
             <TableRow>
               <TableCell className="text-muted-foreground">Email</TableCell>
-              <TableCell className="flex justify-end">{email}</TableCell>
+              <TableCell className="flex justify-end">
+                {order.customer.email}
+              </TableCell>
             </TableRow>
 
             <TableRow>
               <TableCell className="text-muted-foreground">
                 Realizado há
               </TableCell>
-              <TableCell className="flex justify-end">{orderTime}</TableCell>
+              <TableCell className="flex justify-end">
+                {dayjs(order.createdAt).locale('pt-br').fromNow()}
+              </TableCell>
             </TableRow>
           </TableBody>
         </Table>
@@ -85,19 +100,36 @@ export const OrderDetails = ({
           </TableHeader>
 
           <TableBody>
-            <TableRow>
-              <TableCell>Pizza Peperoni</TableCell>
-              <TableCell className="text-right">1</TableCell>
-              <TableCell className="text-right">R$ 99,99</TableCell>
-              <TableCell className="text-right">R$ 99,99</TableCell>
-            </TableRow>
+            {order.orderItems.map((item) => {
+              return (
+                <TableRow key={item.id}>
+                  <TableCell>{item.product.name}</TableCell>
+                  <TableCell className="text-right">{item.quantity}</TableCell>
+                  <TableCell className="text-right">
+                    {(item.priceInCents / 100).toLocaleString('pt-br', {
+                      style: 'currency',
+                      currency: 'BRL',
+                    })}
+                  </TableCell>
+                  <TableCell className="text-right">
+                    {((item.priceInCents * item.quantity) / 100).toLocaleString(
+                      'pt-br',
+                      { style: 'currency', currency: 'BRL' },
+                    )}
+                  </TableCell>
+                </TableRow>
+              )
+            })}
           </TableBody>
 
           <TableFooter>
             <TableRow>
               <TableCell colSpan={3}>Total do pedido</TableCell>
               <TableCell className="text-right font-medium">
-                R$ 299,97
+                {(order.totalInCents / 100).toLocaleString('pt-br', {
+                  style: 'currency',
+                  currency: 'BRL',
+                })}
               </TableCell>
             </TableRow>
           </TableFooter>
