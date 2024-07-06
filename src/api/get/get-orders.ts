@@ -1,7 +1,7 @@
 import { api } from '@/lib/axios'
 import { OrderStatusType } from '@/pages/app/orders/modules/order-status'
 
-interface GetOrdersResponse {
+export interface GetOrdersResponse {
   orders: {
     orderId: string
     createdAt: string

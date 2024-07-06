@@ -1,10 +1,13 @@
 import 'dayjs/locale/pt-br'
 
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import dayjs from 'dayjs'
 import relativeTimes from 'dayjs/plugin/relativeTime'
 import { ArrowRight, Ban, Search } from 'lucide-react'
 import { useState } from 'react'
 
+import { GetOrdersResponse } from '@/api/get/get-orders'
+import { cancelOrder } from '@/api/patch/cancel-order'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogTrigger } from '@/components/ui/dialog'
 import { TableCell, TableRow } from '@/components/ui/table'
@@ -27,6 +30,36 @@ interface OrderTableRowProps {
 
 export const OrderTableRow = ({ order }: OrderTableRowProps) => {
   const [isDetailsOpen, setIsDetailsOpen] = useState(false)
+  const queryClient = useQueryClient()
+
+  const { mutateAsync: cancelOrderFn } = useMutation({
+    mutationFn: cancelOrder,
+    async onSuccess(_, { orderId }) {
+      const ordersListCache = queryClient.getQueriesData<GetOrdersResponse>({
+        queryKey: ['orders'],
+      })
+
+      ordersListCache.forEach(([cacheKey, cacheData]) => {
+        if (!cacheData) {
+          return
+        }
+
+        queryClient.setQueryData<GetOrdersResponse>(cacheKey, {
+          ...cacheData,
+          orders: cacheData.orders.map((order) => {
+            if (order.orderId === orderId) {
+              return {
+                ...order,
+                status: OrderStatusType.Canceled,
+              }
+            }
+
+            return order
+          }),
+        })
+      })
+    },
+  })
 
   return (
     <TableRow>
@@ -69,7 +102,12 @@ export const OrderTableRow = ({ order }: OrderTableRowProps) => {
       </TableCell>
 
       <TableCell>
-        <Button variant="ghost" size="xs">
+        <Button
+          onClick={() => cancelOrderFn({ orderId: order.orderId })}
+          disabled={!['pending', 'processing'].includes(order.status)}
+          variant="ghost"
+          size="xs"
+        >
           <Ban className="mr-2 h-3 w-3" />
           Cancelar
         </Button>
