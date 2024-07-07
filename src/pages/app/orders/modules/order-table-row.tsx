@@ -5,6 +5,7 @@ import dayjs from 'dayjs'
 import relativeTimes from 'dayjs/plugin/relativeTime'
 import { ArrowRight, Ban, Search } from 'lucide-react'
 import { useState } from 'react'
+import { toast } from 'sonner'
 
 import { GetOrdersResponse } from '@/api/get/get-orders'
 import { approveOrder } from '@/api/patch/approve-order'
@@ -13,6 +14,11 @@ import { deliverOrder } from '@/api/patch/deliver-order'
 import { dispatchOrder } from '@/api/patch/dispatch-order'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogTrigger } from '@/components/ui/dialog'
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from '@/components/ui/hover-card'
 import { TableCell, TableRow } from '@/components/ui/table'
 import { formatPrice } from '@/utils/format-price'
 
@@ -33,6 +39,7 @@ interface OrderTableRowProps {
 
 export const OrderTableRow = ({ order }: OrderTableRowProps) => {
   const [isDetailsOpen, setIsDetailsOpen] = useState(false)
+  const [copied, setCopied] = useState(false)
   const queryClient = useQueryClient()
 
   const updateOrderStatusOnCache = (
@@ -96,6 +103,14 @@ export const OrderTableRow = ({ order }: OrderTableRowProps) => {
       },
     })
 
+  const handleCopyClick = (isCopied: boolean) => {
+    navigator.clipboard.writeText(order.orderId).then(() => {
+      setCopied(isCopied)
+
+      toast.success(`Id copiado para a área de transferência`)
+    })
+  }
+
   return (
     <TableRow>
       <TableCell>
@@ -112,7 +127,33 @@ export const OrderTableRow = ({ order }: OrderTableRowProps) => {
       </TableCell>
 
       <TableCell className="font-mono text-xs font-medium">
-        {order.orderId}
+        <HoverCard>
+          <HoverCardTrigger asChild>
+            <Button
+              variant="link"
+              type="button"
+              className="text-muted-foreground"
+            >
+              {order.orderId}
+            </Button>
+          </HoverCardTrigger>
+          <HoverCardContent className="w-80">
+            <div className="space-x-4">
+              <div className="space-y-1">
+                <h4 className="text-sm font-semibold">Copie o id do pedido:</h4>
+                <Button
+                  onClick={() => handleCopyClick(copied)}
+                  type="button"
+                  variant="ghost"
+                >
+                  <p className="text-sm text-muted-foreground">
+                    {order.orderId}
+                  </p>
+                </Button>
+              </div>
+            </div>
+          </HoverCardContent>
+        </HoverCard>
       </TableCell>
 
       <TableCell className="text-muted-foreground">
