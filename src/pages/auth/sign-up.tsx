@@ -72,7 +72,7 @@ export const SignUp = () => {
           <h1 className="text-2xl font-semibold tracking-tight">
             Criar conta grátis
           </h1>
-          <p className="text-sm text-muted-foreground ">
+          <p className="text-sm text-muted-foreground">
             Seja um parceiro e comece suas vendas!
           </p>
         </div>
