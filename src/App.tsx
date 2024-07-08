@@ -14,7 +14,6 @@ export const App = () => {
   return (
     <HelmetProvider>
       <ThemeProvider storageKey="pizzashop-theme" defaultTheme="system">
-        {/* <Helmet titleTemplate="%s | pizza.shop" /> */}
         <Toaster richColors />
         <QueryClientProvider client={queryClient}>
           <RouterProvider router={router} />
