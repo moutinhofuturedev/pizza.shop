@@ -21,7 +21,7 @@ const OrderStatusMap: Record<OrderStatusType, string> = {
 const StatusColorMap: Record<OrderStatusType, string> = {
   [OrderStatusType.Pending]: 'bg-blue-500',
   [OrderStatusType.Canceled]: 'bg-red-500',
-  [OrderStatusType.Processing]: 'bg-amber-500',
+  [OrderStatusType.Processing]: 'bg-yellow-500',
   [OrderStatusType.Delivering]: 'bg-orange-500',
   [OrderStatusType.Delivered]: 'bg-emerald-500',
 }
