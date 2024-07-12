@@ -19,7 +19,9 @@ export const AppLayout = () => {
 
           if (status === 401 && code === 'UNAUTHORIZED') {
             navigate('/user/sign-in', { replace: true })
-            toast.info('Sua sessão expirou, realize o login novamente!')
+            toast.info('Sua sessão expirou, realize o login novamente!', {
+              duration: 8000,
+            })
           }
         }
       },

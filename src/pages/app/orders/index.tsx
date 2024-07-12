@@ -35,8 +35,6 @@ export const Orders = () => {
 
       return prev
     })
-
-    window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
   const { data: managedRestaurant, isLoading } = useQuery({
@@ -72,10 +70,10 @@ export const Orders = () => {
               <TableHeader>
                 <TableRow>
                   <TableHead className="w-[64px]"></TableHead>
-                  <TableHead className="w-[180px]">Identificador</TableHead>
-                  <TableHead className="w-[180px]">Realizado há</TableHead>
+                  <TableHead className="w-[120px]">Identificador</TableHead>
+                  <TableHead className="w-[140px]">Realizado há</TableHead>
                   <TableHead className="w-[140px]">Status</TableHead>
-                  <TableHead>Cliente</TableHead>
+                  <TableHead className="w-[240px]">Cliente</TableHead>
                   <TableHead className="w-[140px]">Total do pedido</TableHead>
                   <TableHead className="w-[164px]"></TableHead>
                   <TableHead className="w-[132px]"></TableHead>
