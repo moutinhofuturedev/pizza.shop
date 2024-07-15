@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { Helmet } from 'react-helmet-async'
 
-import { getManagedRestaurant } from '@/api/get/get-managed-restaurant'
+import { getManagedRestaurant } from '@/api/get/orders/get-managed-restaurant'
 
 import { DayOrdersAmountCard } from './modules/day-orders-amount-card'
 import { MonthCanceledOrdersAmount } from './modules/month-canceled-orders-amount'

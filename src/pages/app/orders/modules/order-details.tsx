@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query'
 import dayjs from 'dayjs'
 import relativeTimes from 'dayjs/plugin/relativeTime'
 
-import { getOrderDetails } from '@/api/get/get-order-details'
+import { getOrderDetails } from '@/api/get/orders/get-order-details'
 import {
   DialogContent,
   DialogDescription,

@@ -3,8 +3,8 @@ import { Helmet } from 'react-helmet-async'
 import { useSearchParams } from 'react-router-dom'
 import { z } from 'zod'
 
-import { getManagedRestaurant } from '@/api/get/get-managed-restaurant'
-import { getOrders } from '@/api/get/get-orders'
+import { getManagedRestaurant } from '@/api/get/orders/get-managed-restaurant'
+import { getOrders } from '@/api/get/orders/get-orders'
 import { Pagination } from '@/components/pagination'
 import {
   Table,

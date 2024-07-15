@@ -7,7 +7,7 @@ import { ArrowRight, Ban, Search } from 'lucide-react'
 import { useState } from 'react'
 import { toast } from 'sonner'
 
-import { GetOrdersResponse } from '@/api/get/get-orders'
+import { GetOrdersResponse } from '@/api/get/orders/get-orders'
 import { approveOrder } from '@/api/patch/approve-order'
 import { cancelOrder } from '@/api/patch/cancel-order'
 import { deliverOrder } from '@/api/patch/deliver-order'

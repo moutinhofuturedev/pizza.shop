@@ -1,8 +1,8 @@
 import { useQuery } from '@tanstack/react-query'
 import { Building, ChevronDown } from 'lucide-react'
 
-import { getManagedRestaurant } from '@/api/get/get-managed-restaurant'
 import { getProfile } from '@/api/get/get-profile'
+import { getManagedRestaurant } from '@/api/get/orders/get-managed-restaurant'
 
 import { AlertModal } from '../alert-modal'
 import { StoreProfile } from '../store-profile'
