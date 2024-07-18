@@ -3,6 +3,7 @@ import { DollarSign } from 'lucide-react'
 
 import { getMonthRevenue } from '@/api/get/dashboard/get-month-revenue'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { formatPrice } from '@/utils/format-price'
 
 export const MonthRevenueCard = () => {
   const { data: monthRevenue } = useQuery({
@@ -23,10 +24,7 @@ export const MonthRevenueCard = () => {
         {monthRevenue && (
           <>
             <span className="text-2xl font-bold tracking-tight">
-              {(monthRevenue.receipt / 100).toLocaleString('pt-BR', {
-                style: 'currency',
-                currency: 'BRL',
-              })}
+              {formatPrice(monthRevenue.receipt / 100)}
             </span>
             <p className="text-sm text-muted-foreground">
               {monthRevenue.diffFromLastMonth >= 0 ? (
