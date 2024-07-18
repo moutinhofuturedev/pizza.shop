@@ -14,11 +14,6 @@ api.interceptors.request.use(
       await new Promise((resolve) => setTimeout(resolve, 1000))
     }
 
-    const token = localStorage.getItem('token')
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`
-    }
-
     console.log('Solicitação enviada:', config.url)
     return config
   },
@@ -44,6 +39,7 @@ api.interceptors.response.use(
           'Erro na resposta da API:',
           axiosError.response.status,
           axiosError.response.statusText,
+          axiosError.response.data,
         )
       } else if (axiosError.request) {
         // Erro na solicitação da API

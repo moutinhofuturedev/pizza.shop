@@ -16,11 +16,19 @@ export const AppLayout = () => {
         if (axios.isAxiosError(error)) {
           const status = error.response?.status
           const code = error.response?.data?.code
+          const message = error.response?.data?.message
 
           if (status === 401 && code === 'UNAUTHORIZED') {
             navigate('/user/sign-in', { replace: true })
             toast.info('Sua sessão expirou, realize o login novamente!', {
               duration: 8000,
+            })
+          }
+
+          if (status === 400 && code === 'INVALID_PERIOD') {
+            return toast.error('Período inválido.', {
+              duration: 8000,
+              description: `${message}.`,
             })
           }
         }
