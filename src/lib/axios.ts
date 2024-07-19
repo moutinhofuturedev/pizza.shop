@@ -11,7 +11,9 @@ export const api: AxiosInstance = axios.create({
 api.interceptors.request.use(
   async (config) => {
     if (env.VITE_ENABLE_DELAY_API) {
-      await new Promise((resolve) => setTimeout(resolve, 1000))
+      await new Promise((resolve) =>
+        setTimeout(resolve, Math.round(Math.random() * 3000)),
+      )
     }
 
     console.log('Solicitação enviada:', config.url)

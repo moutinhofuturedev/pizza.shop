@@ -4,6 +4,8 @@ import { Ban } from 'lucide-react'
 import { getMonthCanceledOrdersAmount } from '@/api/get/dashboard/get-month-canceled-orders-amount'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
+import { MetricsCardsSkeleton } from '../components/skeletons/metrics-cards-skeleton'
+
 export const MonthCanceledOrdersAmount = () => {
   const { data: monthCanceledOrdersAmount } = useQuery({
     queryKey: ['metrics', 'month-canceled-orders-amount'],
@@ -20,7 +22,7 @@ export const MonthCanceledOrdersAmount = () => {
         <Ban className="h-4 w-4 text-muted-foreground max-md:hidden" />
       </CardHeader>
       <CardContent className="space-y-1">
-        {monthCanceledOrdersAmount && (
+        {monthCanceledOrdersAmount ? (
           <>
             <span className="text-2xl font-bold tracking-tight">
               {monthCanceledOrdersAmount.amount.toLocaleString('pt-BR')}
@@ -43,6 +45,8 @@ export const MonthCanceledOrdersAmount = () => {
               )}
             </p>
           </>
+        ) : (
+          <MetricsCardsSkeleton />
         )}
       </CardContent>
     </Card>
