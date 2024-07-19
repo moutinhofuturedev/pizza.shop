@@ -14,6 +14,7 @@ import {
   TableRow,
 } from '@/components/ui/table'
 
+import { OrderTableSkeleton } from './loading/order-table-skeleton'
 import { OrderTableFilter } from './modules/order-table-filter'
 import { OrderTableRow } from './modules/order-table-row'
 
@@ -43,7 +44,7 @@ export const Orders = () => {
     staleTime: Infinity,
   })
 
-  const { data: orderResult } = useQuery({
+  const { data: orderResult, isLoading: isLoadingOrders } = useQuery({
     queryKey: ['orders', pageIndex, orderId, customerName, status],
     queryFn: () =>
       getOrders({
@@ -81,6 +82,7 @@ export const Orders = () => {
               </TableHeader>
 
               <TableBody>
+                {isLoadingOrders && <OrderTableSkeleton />}
                 {orderResult &&
                   orderResult.orders.map((order) => (
                     <OrderTableRow key={order.orderId} order={order} />
