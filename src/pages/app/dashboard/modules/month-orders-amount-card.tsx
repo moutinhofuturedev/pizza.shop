@@ -4,7 +4,7 @@ import { Utensils } from 'lucide-react'
 import { getMonthOrdersAmount } from '@/api/get/dashboard/get-month-orders-amount'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
-import { MetricsCardsSkeleton } from '../components/skeletons/metrics-cards-skeleton'
+import { MetricsCardsSkeleton } from '../loading/metrics-cards-skeleton'
 
 export const MonthOrdersAmountCard = () => {
   const { data: monthOrdersAmount } = useQuery({

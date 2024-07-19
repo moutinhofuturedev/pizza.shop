@@ -4,7 +4,7 @@ import { Ban } from 'lucide-react'
 import { getMonthCanceledOrdersAmount } from '@/api/get/dashboard/get-month-canceled-orders-amount'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
-import { MetricsCardsSkeleton } from '../components/skeletons/metrics-cards-skeleton'
+import { MetricsCardsSkeleton } from '../loading/metrics-cards-skeleton'
 
 export const MonthCanceledOrdersAmount = () => {
   const { data: monthCanceledOrdersAmount } = useQuery({

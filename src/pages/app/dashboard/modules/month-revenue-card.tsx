@@ -5,7 +5,7 @@ import { getMonthRevenue } from '@/api/get/dashboard/get-month-revenue'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { formatPrice } from '@/utils/format-price'
 
-import { MetricsCardsSkeleton } from '../components/skeletons/metrics-cards-skeleton'
+import { MetricsCardsSkeleton } from '../loading/metrics-cards-skeleton'
 
 export const MonthRevenueCard = () => {
   const { data: monthRevenue } = useQuery({
