@@ -122,7 +122,11 @@ export const OrderTableRow = ({ order }: OrderTableRowProps) => {
             </Button>
           </DialogTrigger>
 
-          <OrderDetails open={isDetailsOpen} orderId={order.orderId} />
+          <OrderDetails
+            open={isDetailsOpen}
+            orderId={order.orderId}
+            status={order.status}
+          />
         </Dialog>
       </TableCell>
 

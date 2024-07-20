@@ -23,16 +23,17 @@ import {
 import { formatPrice } from '@/utils/format-price'
 
 import { OrderDetailsSkeleton } from '../loading/order-details.skeleton'
-import { OrderStatus } from './order-status'
+import { OrderStatus, OrderStatusType } from './order-status'
 
 dayjs.extend(relativeTimes)
 
 interface OrderIdProps {
   orderId: string
+  status: OrderStatusType
   open: boolean
 }
 
-export const OrderDetails = ({ orderId, open }: OrderIdProps) => {
+export const OrderDetails = ({ orderId, status, open }: OrderIdProps) => {
   const { data: order } = useQuery({
     queryKey: ['order', orderId],
     queryFn: () => getOrderDetails({ orderId }),
@@ -54,7 +55,7 @@ export const OrderDetails = ({ orderId, open }: OrderIdProps) => {
               <TableRow>
                 <TableCell className="text-muted-foreground">Status</TableCell>
                 <TableCell className="flex justify-end">
-                  <OrderStatus status={order.status} />
+                  <OrderStatus status={status} />
                 </TableCell>
               </TableRow>
 
