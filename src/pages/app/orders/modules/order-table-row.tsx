@@ -1,12 +1,13 @@
 import 'dayjs/locale/pt-br'
 
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import dayjs from 'dayjs'
 import relativeTimes from 'dayjs/plugin/relativeTime'
 import { ArrowRight, Ban, Search } from 'lucide-react'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { toast } from 'sonner'
 
+import { getOrderDetails } from '@/api/get/orders/get-order-details'
 import { GetOrdersResponse } from '@/api/get/orders/get-orders'
 import { approveOrder } from '@/api/patch/approve-order'
 import { cancelOrder } from '@/api/patch/cancel-order'
@@ -19,6 +20,7 @@ import {
   HoverCardContent,
   HoverCardTrigger,
 } from '@/components/ui/hover-card'
+import { Skeleton } from '@/components/ui/skeleton'
 import { TableCell, TableRow } from '@/components/ui/table'
 import { formatPrice } from '@/utils/format-price'
 
@@ -41,6 +43,12 @@ export const OrderTableRow = ({ order }: OrderTableRowProps) => {
   const [isDetailsOpen, setIsDetailsOpen] = useState(false)
   const [copied, setCopied] = useState(false)
   const queryClient = useQueryClient()
+
+  const { data: quantitiesOfItems, isLoading } = useQuery({
+    queryKey: ['order', order.orderId],
+    queryFn: () => getOrderDetails({ orderId: order.orderId }),
+    staleTime: 1000 * 60, // 1 min
+  })
 
   const updateOrderStatusOnCache = (
     orderId: string,
@@ -111,6 +119,16 @@ export const OrderTableRow = ({ order }: OrderTableRowProps) => {
     })
   }
 
+  const quantityOfItensForOrder = useMemo(() => {
+    if (!quantitiesOfItems) {
+      return 0
+    }
+    return quantitiesOfItems.orderItems.reduce(
+      (acc, item) => acc + item.quantity,
+      0,
+    )
+  }, [quantitiesOfItems])
+
   return (
     <TableRow>
       <TableCell>
@@ -170,8 +188,15 @@ export const OrderTableRow = ({ order }: OrderTableRowProps) => {
 
       <TableCell className="font-medium">{order.customerName}</TableCell>
 
-      <TableCell className="font-medium">
+      <TableCell className="flex flex-col font-medium">
         {formatPrice(order.total / 100)}
+        {isLoading ? (
+          <Skeleton className="mt-2 h-3 w-12" />
+        ) : (
+          <span className="mt-2 text-xs text-muted-foreground">
+            {quantityOfItensForOrder} item(s)
+          </span>
+        )}
       </TableCell>
 
       <TableCell>
