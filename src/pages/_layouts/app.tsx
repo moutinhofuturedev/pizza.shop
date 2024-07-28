@@ -21,6 +21,13 @@ export const AppLayout = () => {
 
           if (status === 401 && code === 'UNAUTHORIZED') {
             navigate('/user/sign-in', { replace: true })
+
+            return toast.info(
+              'Sua sessão expirou, realize o login novamente!',
+              {
+                duration: 8000,
+              },
+            )
           }
 
           if (status === 400 && code === 'INVALID_PERIOD') {
@@ -35,9 +42,6 @@ export const AppLayout = () => {
 
     return () => {
       api.interceptors.response.eject(interceptor)
-      toast.info('Sua sessão expirou, realize o login novamente!', {
-        duration: 8000,
-      })
     }
   }, [navigate])
 
