@@ -1,0 +1,19 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`<OrderStatus /> > should render display order status correctly 1`] = `
+<div>
+  <div
+    class="flex items-center gap-2"
+  >
+    <span
+      class="h-2 w-2 rounded-full bg-blue-500"
+      data-testid="order-status"
+    />
+    <span
+      class="font-medium text-muted-foreground"
+    >
+      Pendente
+    </span>
+  </div>
+</div>
+`;

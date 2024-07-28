@@ -29,7 +29,10 @@ const StatusColorMap: Record<OrderStatusType, string> = {
 export const OrderStatus = ({ status }: OrderStatusProps) => {
   return (
     <div className="flex items-center gap-2">
-      <span className={`h-2 w-2 rounded-full ${StatusColorMap[status]}`} />
+      <span
+        data-testid="order-status"
+        className={`h-2 w-2 rounded-full ${StatusColorMap[status]}`}
+      />
       <span className="font-medium text-muted-foreground">
         {OrderStatusMap[status]}
       </span>
