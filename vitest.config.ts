@@ -7,6 +7,8 @@ export default defineConfig({
     environment: 'happy-dom',
     coverage: {
       provider: 'istanbul',
+      enabled: true,
+      reporter: ['html'],
       include: [
         'src/**',
         'tests/**',
