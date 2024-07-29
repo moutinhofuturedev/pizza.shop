@@ -63,6 +63,44 @@ describe('<Pagination />', () => {
 
     await userEvent.click(previousPageButton)
 
-    expect(onPageChangeCallback).toBeCalledWith(0)
+    expect(onPageChangeCallback).toHaveBeenCalledWith(0)
+  })
+
+  it('should be able to navigate to the first page', async () => {
+    const wrapper = render(
+      <Pagination
+        pageIndex={1}
+        totalCount={200}
+        perPage={10}
+        onPageChange={onPageChangeCallback}
+      />,
+    )
+
+    const firstPageButton = wrapper.getByRole('button', {
+      name: 'Primeira página',
+    })
+
+    await userEvent.click(firstPageButton)
+
+    expect(onPageChangeCallback).toHaveBeenCalledWith(0)
+  })
+
+  it('should be able to navigate to the last page', async () => {
+    const wrapper = render(
+      <Pagination
+        pageIndex={1}
+        totalCount={200}
+        perPage={10}
+        onPageChange={onPageChangeCallback}
+      />,
+    )
+
+    const lastPageButton = wrapper.getByRole('button', {
+      name: 'Última página',
+    })
+
+    await userEvent.click(lastPageButton)
+
+    expect(onPageChangeCallback).toHaveBeenCalledWith(19)
   })
 })
