@@ -10,7 +10,7 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "commit": "npx cz",
-    "test": "vitest run",
+    "test": "vitest run --passWithNoTests",
     "test:ui": "vitest --ui",
     "test:update": "vitest --update",
     "test:coverage": "vitest run --coverage --reporter=verbose"
