@@ -1,18 +1,26 @@
+import path from 'node:path'
+
 import { defineConfig } from 'vitest/config'
 
 export default defineConfig({
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+    },
+  },
   test: {
     globals: true,
     setupFiles: ['./vitest/setup.ts'],
     environment: 'happy-dom',
+    clearMocks: true,
     coverage: {
       provider: 'istanbul',
-      enabled: true,
-      reporter: ['html'],
+      // enabled: true,
+      // reporter: ['html'],
+      cleanOnRerun: true,
+      clean: true,
       include: [
-        'src/**',
-        'tests/**',
-        '__tests__/**',
+        'src/**/*.{ts,tsx}',
         '__mocks__/**',
         'src/components/**',
         'src/api/**',
@@ -23,6 +31,7 @@ export default defineConfig({
         '**/node_modules/**',
         '**/cypress/**',
         '**/coverage/**',
+        '**/__tests__/**',
         '**/public/**',
         '**/pages/_layouts/**',
         '**/src/**/loading/**',
