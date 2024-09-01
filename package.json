@@ -14,7 +14,7 @@
     "test": "vitest run --passWithNoTests",
     "test:ui": "vitest --ui",
     "test:update": "vitest --update",
-    "test:coverage": "vitest run --coverage --reporter=verbose"
+    "test:coverage": "vitest run --coverage"
   },
   "config": {
     "commitizen": {

@@ -12,13 +12,10 @@ export default defineConfig({
     globals: true,
     setupFiles: ['./vitest/setup.ts'],
     environment: 'happy-dom',
-    clearMocks: true,
     coverage: {
       provider: 'istanbul',
       enabled: true,
-      reporter: ['html'],
-      cleanOnRerun: true,
-      clean: true,
+      reporter: ['text', 'html', 'clover', 'json'],
       include: [
         'src/**/*.{ts,tsx}',
         '__mocks__/**',
