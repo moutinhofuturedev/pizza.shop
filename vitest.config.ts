@@ -15,8 +15,8 @@ export default defineConfig({
     clearMocks: true,
     coverage: {
       provider: 'istanbul',
-      // enabled: true,
-      // reporter: ['html'],
+      enabled: true,
+      reporter: ['html'],
       cleanOnRerun: true,
       clean: true,
       include: [
