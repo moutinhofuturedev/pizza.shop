@@ -2,7 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
 import { Helmet } from 'react-helmet-async'
 import { useForm } from 'react-hook-form'
-import { Link } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
@@ -18,6 +18,7 @@ const signInFormSchema = z.object({
 type SignInFormSchema = z.infer<typeof signInFormSchema>
 
 export const SignIn = () => {
+  const [searchParams] = useSearchParams()
   const {
     register,
     handleSubmit,
@@ -25,6 +26,9 @@ export const SignIn = () => {
     reset,
   } = useForm<SignInFormSchema>({
     resolver: zodResolver(signInFormSchema),
+    defaultValues: {
+      email: searchParams.get('email') ?? '',
+    },
   })
 
   const { mutateAsync: authenticate } = useMutation({
@@ -59,12 +63,16 @@ export const SignIn = () => {
           <h1 className="text-2xl font-semibold tracking-tight">
             Acesse o painel
           </h1>
-          <p className="text-sm text-muted-foreground ">
+          <p className="text-sm text-muted-foreground">
             Acompanhe suas vendas pelo painel do parceiro
           </p>
         </div>
 
-        <form onSubmit={handleSubmit(handleSubmitForm)} className="space-y-4">
+        <form
+          data-testid="sign-in-form"
+          onSubmit={handleSubmit(handleSubmitForm)}
+          className="space-y-4"
+        >
           <div className="space-y-2">
             <Label htmlFor="email">Seu e-mail</Label>
             <Input
