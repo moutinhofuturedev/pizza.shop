@@ -7,6 +7,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
+    "esbuild": "esbuild",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "commit": "npx cz",
@@ -68,6 +69,7 @@
     "@vitest/coverage-istanbul": "^2.0.4",
     "@vitest/ui": "^2.0.4",
     "autoprefixer": "^10.4.19",
+    "esbuild": "0.23.1",
     "eslint": "^8.57.0",
     "eslint-plugin-simple-import-sort": "^12.1.0",
     "happy-dom": "^14.12.3",
