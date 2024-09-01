@@ -13,7 +13,6 @@ export default defineConfig({
     setupFiles: ['./vitest/setup.ts'],
     environment: 'happy-dom',
     clearMocks: true,
-    testTimeout: 30000,
     coverage: {
       provider: 'istanbul',
       // enabled: true,
