@@ -9,7 +9,7 @@ import { queryClient } from '@/lib/react-query'
 
 import { SignIn } from '../sign-in'
 
-const handleSubmitForm = vi.fn().mockImplementationOnce(() => Promise.resolve())
+const handleSubmitForm = vi.fn()
 
 describe('<SignIn />', () => {
   beforeEach(() => {
@@ -90,7 +90,7 @@ describe('<SignIn />', () => {
     expect(emailInput).toHaveValue('test@example.com')
   })
 
-  it('should trigger handleSubmitForm on form submission', async () => {
+  it('should trigger handleSubmitForm on form submission', () => {
     const wrapper = render(<SignIn />, {
       wrapper: ({ children }) => {
         return (
@@ -110,8 +110,8 @@ describe('<SignIn />', () => {
       name: /acessar painel/i,
     })
 
-    await userEvent.type(form, 'test@example.com')
-    await userEvent.click(submitButton)
+    userEvent.type(form, 'test@example.com')
+    userEvent.click(submitButton)
 
     waitFor(() => {
       expect(handleSubmitForm).toHaveBeenCalledWith({
