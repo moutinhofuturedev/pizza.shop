@@ -27,7 +27,7 @@ export default defineConfig({
       exclude: [
         '**/node_modules/**',
         '**/cypress/**',
-        '**/coverage/**',
+        // '**/coverage/**',
         '**/__tests__/**',
         '**/public/**',
         '**/pages/_layouts/**',
