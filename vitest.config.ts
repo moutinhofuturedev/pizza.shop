@@ -14,8 +14,9 @@ export default defineConfig({
     environment: 'happy-dom',
     coverage: {
       provider: 'istanbul',
+      all: true,
       enabled: true,
-      reporter: ['text', 'html', 'clover', 'json'],
+      reporter: ['text', 'html', 'clover', 'json', 'lcov'],
       include: [
         'src/**/*.{ts,tsx}',
         '__mocks__/**',
@@ -27,7 +28,7 @@ export default defineConfig({
       exclude: [
         '**/node_modules/**',
         '**/cypress/**',
-        // '**/coverage/**',
+        '**/coverage/**',
         '**/__tests__/**',
         '**/public/**',
         '**/pages/_layouts/**',
