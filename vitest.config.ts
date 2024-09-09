@@ -16,7 +16,8 @@ export default defineConfig({
       provider: 'istanbul',
       all: true,
       enabled: true,
-      reporter: ['text', 'html', 'clover', 'json', 'lcov'],
+      reporter: ['text', 'lcov'], // Gera o relatório LCOV necessário para o SonarCloud
+      reportsDirectory: './coverage', // Diretorio para salvar os arquivos de cobertura
       include: [
         'src/**/*.{ts,tsx}',
         '__mocks__/**',
