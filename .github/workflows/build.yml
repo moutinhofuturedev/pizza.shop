@@ -27,9 +27,6 @@ jobs:
       - name: Run tests and coverage
         run: npm run test:coverage
 
-      - name: Set environment variable to disable MSW in CI
-        run: echo "MSW_DISABLED=true" >> $GITHUB_ENV
-
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
