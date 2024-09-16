@@ -28,6 +28,7 @@ export default defineConfig({
       ],
       exclude: [
         '**/node_modules/**',
+        '**/msw-mocks/**',
         '**/cypress/**',
         '**/coverage/**',
         '**/__tests__/**',
