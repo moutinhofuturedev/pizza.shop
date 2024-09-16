@@ -8,6 +8,7 @@ import { SignIn } from '@/pages/auth/sign-in'
 import { SignUp } from '@/pages/auth/sign-up'
 
 import { NotFound } from './pages/404'
+// biome-ignore lint/suspicious/noShadowRestrictedNames: <explanation>
 import { Error } from './pages/Error'
 
 export const router = createBrowserRouter([

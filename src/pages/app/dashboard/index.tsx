@@ -14,6 +14,7 @@ export const Dashboard = () => {
   const { data: managedRestaurant, isLoading } = useQuery({
     queryKey: ['managed-restaurant'],
     queryFn: getManagedRestaurant,
+    // biome-ignore lint/style/useNumberNamespace: <explanation>
     staleTime: Infinity,
   })
 

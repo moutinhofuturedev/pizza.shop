@@ -5,8 +5,8 @@ import { toast } from 'sonner'
 import { z } from 'zod'
 
 import {
+  type GetManagedRestaurantResponsePick,
   getManagedRestaurant,
-  GetManagedRestaurantResponsePick,
 } from '@/api/get/orders/get-managed-restaurant'
 import { updateStoreProfile } from '@/api/put/update-store-profile'
 
@@ -35,6 +35,7 @@ export const StoreProfile = () => {
   const { data: managedRestaurant } = useQuery({
     queryKey: ['managed-restaurant'],
     queryFn: getManagedRestaurant,
+    // biome-ignore lint/style/useNumberNamespace: <explanation>
     staleTime: Infinity,
   })
 
@@ -44,7 +45,7 @@ export const StoreProfile = () => {
     onSuccess(_, { name, description }) {
       // Obter os dados em cache do restaurante gerenciado
       const cached = queryClient.getQueryData<GetManagedRestaurantResponsePick>(
-        ['managed-restaurant'],
+        ['managed-restaurant']
       )
 
       if (cached) {
@@ -55,7 +56,7 @@ export const StoreProfile = () => {
             ...cached,
             name,
             description,
-          },
+          }
         )
       }
     },

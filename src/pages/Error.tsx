@@ -3,6 +3,7 @@ import { useNavigate, useRouteError } from 'react-router-dom'
 
 import { Button } from '@/components/ui/button'
 
+// biome-ignore lint/suspicious/noShadowRestrictedNames: <explanation>
 export const Error = () => {
   const navigate = useNavigate()
   const error = useRouteError() as Error

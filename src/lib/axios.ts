@@ -1,4 +1,8 @@
-import axios, { AxiosError, AxiosInstance, AxiosResponse } from 'axios'
+import axios, {
+  type AxiosError,
+  type AxiosInstance,
+  type AxiosResponse,
+} from 'axios'
 
 import { env } from '@/env'
 
@@ -9,20 +13,20 @@ export const api: AxiosInstance = axios.create({
 
 // Intercepta requisições
 api.interceptors.request.use(
-  async (config) => {
+  async config => {
     if (env.VITE_ENABLE_DELAY_API) {
-      await new Promise((resolve) =>
-        setTimeout(resolve, Math.round(Math.random() * 3000)),
+      await new Promise(resolve =>
+        setTimeout(resolve, Math.round(Math.random() * 3000))
       )
     }
 
     console.log('Solicitação enviada:', config.url)
     return config
   },
-  (error) => {
+  error => {
     console.error('Erro na configuração da solicitação:', error)
     return Promise.reject(error)
-  },
+  }
 )
 
 // Intercepta respostas
@@ -31,7 +35,7 @@ api.interceptors.response.use(
     console.log('Resposta de sucesso:', response.status, response.statusText)
     return response
   },
-  (error) => {
+  error => {
     if (axios.isAxiosError(error)) {
       const axiosError = error as AxiosError
 
@@ -41,7 +45,7 @@ api.interceptors.response.use(
           'Erro na resposta da API:',
           axiosError.response.status,
           axiosError.response.statusText,
-          axiosError.response.data,
+          axiosError.response.data
         )
       } else if (axiosError.request) {
         // Erro na solicitação da API
@@ -51,7 +55,7 @@ api.interceptors.response.use(
         console.error(
           'Erro na configuração da solicitação:',
           axiosError.message,
-          error,
+          error
         )
       }
     } else {
@@ -59,5 +63,5 @@ api.interceptors.response.use(
       console.error('Erro desconhecido:', error)
     }
     return Promise.reject(error)
-  },
+  }
 )

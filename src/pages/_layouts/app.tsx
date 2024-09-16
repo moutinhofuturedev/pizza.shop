@@ -12,8 +12,8 @@ export const AppLayout = () => {
 
   useEffect(() => {
     const interceptor = api.interceptors.response.use(
-      (response) => response,
-      (error) => {
+      response => response,
+      error => {
         if (axios.isAxiosError(error)) {
           const status = error.response?.status
           const code = error.response?.data?.code
@@ -26,7 +26,7 @@ export const AppLayout = () => {
               'Sua sessão expirou, realize o login novamente!',
               {
                 duration: 8000,
-              },
+              }
             )
           }
 
@@ -37,7 +37,7 @@ export const AppLayout = () => {
             })
           }
         }
-      },
+      }
     )
 
     return () => {

@@ -13,6 +13,7 @@ const INTEGRITY_CHECKSUM = '26357c79639bfa20d64c0efca2a87423'
 const IS_MOCKED_RESPONSE = Symbol('isMockedResponse')
 const activeClientIds = new Set()
 
+// biome-ignore lint/complexity/useArrowFunction: <explanation>
 self.addEventListener('install', function () {
   self.skipWaiting()
 })
@@ -123,7 +124,7 @@ async function handleRequest(event, requestId) {
   // Ensure MSW is active and ready to handle the message, otherwise
   // this message will pend indefinitely.
   if (client && activeClientIds.has(client.id)) {
-    ;(async function () {
+    ; (async function () {
       const responseClone = response.clone()
 
       sendToClient(

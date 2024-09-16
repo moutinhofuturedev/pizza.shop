@@ -8,7 +8,7 @@ import { useMemo, useState } from 'react'
 import { toast } from 'sonner'
 
 import { getOrderDetails } from '@/api/get/orders/get-order-details'
-import { GetOrdersResponse } from '@/api/get/orders/get-orders'
+import type { GetOrdersResponse } from '@/api/get/orders/get-orders'
 import { approveOrder } from '@/api/patch/approve-order'
 import { cancelOrder } from '@/api/patch/cancel-order'
 import { deliverOrder } from '@/api/patch/deliver-order'
@@ -52,12 +52,13 @@ export const OrderTableRow = ({ order }: OrderTableRowProps) => {
 
   const updateOrderStatusOnCache = (
     orderId: string,
-    status: OrderStatusType,
+    status: OrderStatusType
   ) => {
     const ordersListCache = queryClient.getQueriesData<GetOrdersResponse>({
       queryKey: ['orders'],
     })
 
+    // biome-ignore lint/complexity/noForEach: <explanation>
     ordersListCache.forEach(([cacheKey, cacheData]) => {
       if (!cacheData) {
         return
@@ -65,7 +66,7 @@ export const OrderTableRow = ({ order }: OrderTableRowProps) => {
 
       queryClient.setQueryData<GetOrdersResponse>(cacheKey, {
         ...cacheData,
-        orders: cacheData.orders.map((order) => {
+        orders: cacheData.orders.map(order => {
           if (order.orderId === orderId) {
             return {
               ...order,
@@ -115,7 +116,7 @@ export const OrderTableRow = ({ order }: OrderTableRowProps) => {
     navigator.clipboard.writeText(order.orderId).then(() => {
       setCopied(isCopied)
 
-      toast.success(`Id copiado para a área de transferência`)
+      toast.success('Id copiado para a área de transferência')
     })
   }
 
@@ -125,7 +126,7 @@ export const OrderTableRow = ({ order }: OrderTableRowProps) => {
     }
     return quantitiesOfItems.orderItems.reduce(
       (acc, item) => acc + item.quantity,
-      0,
+      0
     )
   }, [quantitiesOfItems])
 

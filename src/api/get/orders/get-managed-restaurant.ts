@@ -16,7 +16,7 @@ export type GetManagedRestaurantResponsePick = Pick<
 
 export const getManagedRestaurant = async () => {
   const response = await api.get<GetManagedRestaurantResponsePick>(
-    '/managed-restaurant',
+    '/managed-restaurant'
   )
 
   return response.data

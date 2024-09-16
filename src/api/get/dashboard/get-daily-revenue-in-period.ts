@@ -18,7 +18,7 @@ export const getDailyRevenueInPeriod = async ({ from, to }: DateRangeProps) => {
         from,
         to,
       },
-    },
+    }
   )
 
   return response.data

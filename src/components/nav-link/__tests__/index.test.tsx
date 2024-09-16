@@ -26,7 +26,7 @@ describe('<NavLink />', () => {
             </MemoryRouter>
           )
         },
-      },
+      }
     )
 
     const homeLink = wrapper.getByText('Home')

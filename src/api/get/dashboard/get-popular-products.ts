@@ -7,7 +7,7 @@ export type PopularProductResponse = {
 
 export const getPopularProducts = async () => {
   const response = await api.get<PopularProductResponse>(
-    '/metrics/popular-products',
+    '/metrics/popular-products'
   )
 
   return response.data

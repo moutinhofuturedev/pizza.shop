@@ -7,7 +7,7 @@ interface GetMonthRevenueResponse {
 
 export const getMonthRevenue = async () => {
   const response = await api.get<GetMonthRevenueResponse>(
-    '/metrics/month-receipt',
+    '/metrics/month-receipt'
   )
 
   return response.data

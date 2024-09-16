@@ -22,6 +22,7 @@ export const AccountMenu = () => {
   const { data: profile, isLoading: isLoadingProfile } = useQuery({
     queryKey: ['profile'],
     queryFn: getProfile,
+    // biome-ignore lint/style/useNumberNamespace: <explanation>
     staleTime: Infinity,
   })
 
@@ -29,6 +30,7 @@ export const AccountMenu = () => {
     useQuery({
       queryKey: ['managed-restaurant'],
       queryFn: getManagedRestaurant,
+      // biome-ignore lint/style/useNumberNamespace: <explanation>
       staleTime: Infinity,
     })
 
