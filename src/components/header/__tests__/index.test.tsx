@@ -1,10 +1,10 @@
 // mock das variáveis de ambiente
-vi.mock('@/env', () => ({
-  env: {
-    VITE_BASE_URL: 'http://localhost:3000',
-    VITE_ENABLE_DELAY_API: 'false',
-  },
-}))
+// vi.mock('@/env', () => ({
+//   env: {
+//     VITE_BASE_URL: 'http://localhost:3000',
+//     VITE_ENABLE_DELAY_API: 'false',
+//   },
+// }))
 
 import { QueryClientProvider } from '@tanstack/react-query'
 import { render, screen } from '@testing-library/react'
