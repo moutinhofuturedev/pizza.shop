@@ -39,7 +39,7 @@ export const OrderTableFilter = () => {
   })
 
   const handleFilter = ({ orderId, customerName, status }: OrderFilterType) => {
-    setSearchParams((state) => {
+    setSearchParams(state => {
       if (orderId) {
         state.set('orderId', orderId)
       } else {
@@ -65,7 +65,7 @@ export const OrderTableFilter = () => {
   }
 
   const handleClearFilters = () => {
-    setSearchParams((state) => {
+    setSearchParams(state => {
       state.delete('orderId')
       state.delete('customerName')
       state.delete('status')

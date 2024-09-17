@@ -27,11 +27,11 @@ export const Orders = () => {
 
   const pageIndex = z.coerce
     .number()
-    .transform((page) => page - 1)
+    .transform(page => page - 1)
     .parse(searchParams.get('page') ?? '1')
 
   const handlePaginate = (pageIndex: number) => {
-    setSearchParams((prev) => {
+    setSearchParams(prev => {
       prev.set('page', String(pageIndex + 1))
 
       return prev
@@ -41,6 +41,7 @@ export const Orders = () => {
   const { data: managedRestaurant, isLoading } = useQuery({
     queryKey: ['managed-restaurant'],
     queryFn: getManagedRestaurant,
+    // biome-ignore lint/style/useNumberNamespace: <explanation>
     staleTime: Infinity,
   })
 
@@ -70,21 +71,22 @@ export const Orders = () => {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead className="w-[48px]"></TableHead>
+                  <TableHead className="w-[48px]" />
                   <TableHead className="w-[102px]">Identificador</TableHead>
                   <TableHead className="w-[120px]">Realizado há</TableHead>
                   <TableHead className="w-[164px]">Status</TableHead>
                   <TableHead className="w-[240px]">Cliente</TableHead>
                   <TableHead className="w-[140px]">Total do pedido</TableHead>
-                  <TableHead className="w-[124px]"></TableHead>
-                  <TableHead className="w-[124px]"></TableHead>
+                  <TableHead className="w-[124px]" />
+                  <TableHead className="w-[124px]" />
                 </TableRow>
               </TableHeader>
 
               <TableBody>
                 {isLoadingOrders && <OrderTableSkeleton />}
+                {/* biome-ignore lint/complexity/useOptionalChain: <explanation> */}
                 {orderResult &&
-                  orderResult.orders.map((order) => (
+                  orderResult.orders.map(order => (
                     <OrderTableRow key={order.orderId} order={order} />
                   ))}
               </TableBody>

@@ -7,6 +7,7 @@ import { TableCell, TableRow } from '@/components/ui/table'
 export const OrderTableSkeleton = () => {
   return Array.from({ length: 10 }).map((_, index) => {
     return (
+      // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
       <TableRow key={index}>
         <TableCell>
           <Button disabled variant="outline" size="xs">

@@ -1,12 +1,18 @@
 import { http, HttpResponse } from 'msw'
 import type { SignInBody } from '../post/sign-in'
 
-export const signInMock = http.post<never, SignInBody>('/authenticate', async ({ request }) => {
-  const { email } = await request.json()
+export const signInMock = http.post<never, SignInBody>(
+  '/authenticate',
+  async ({ request }) => {
+    const { email } = await request.json()
 
-  if(email === 'wGx2h@example.com') {
-    return new HttpResponse(null, { status: 200, headers: { 'Set-Cookie': 'auth=sample-jwt' } })
+    if (email === 'wGx2h@example.com') {
+      return new HttpResponse(null, {
+        status: 200,
+        headers: { 'Set-Cookie': 'auth=sample-jwt' },
+      })
+    }
+
+    return new HttpResponse(null, { status: 401 })
   }
-
-  return new HttpResponse(null, { status: 401 })
-})
+)

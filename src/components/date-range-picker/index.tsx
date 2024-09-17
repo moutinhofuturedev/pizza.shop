@@ -2,8 +2,8 @@
 
 import { format } from 'date-fns'
 import { Calendar as CalendarIcon } from 'lucide-react'
-import * as React from 'react'
-import { DateRange } from 'react-day-picker'
+import type * as React from 'react'
+import type { DateRange } from 'react-day-picker'
 
 import { Button } from '@/components/ui/button'
 import { Calendar } from '@/components/ui/calendar'
@@ -33,7 +33,7 @@ export function DatePickerWithRange({
             variant={'outline'}
             className={cn(
               'w-[300px] justify-start text-left font-normal',
-              !date && 'text-muted-foreground',
+              !date && 'text-muted-foreground'
             )}
           >
             <CalendarIcon className="mr-2 h-4 w-4" />

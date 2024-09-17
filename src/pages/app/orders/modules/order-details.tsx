@@ -23,7 +23,7 @@ import {
 import { formatPrice } from '@/utils/format-price'
 
 import { OrderDetailsSkeleton } from '../loading/order-details.skeleton'
-import { OrderStatus, OrderStatusType } from './order-status'
+import { OrderStatus, type OrderStatusType } from './order-status'
 
 dayjs.extend(relativeTimes)
 
@@ -104,7 +104,7 @@ export const OrderDetails = ({ orderId, status, open }: OrderIdProps) => {
             </TableHeader>
 
             <TableBody>
-              {order.orderItems.map((item) => {
+              {order.orderItems.map(item => {
                 return (
                   <TableRow key={item.id}>
                     <TableCell>{item.product.name}</TableCell>

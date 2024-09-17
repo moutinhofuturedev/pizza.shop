@@ -6,11 +6,11 @@
 //   },
 // }))
 
-import { render,  } from '@testing-library/react'
-import { userEvent } from '@testing-library/user-event'
 import { QueryClientProvider } from '@tanstack/react-query'
-import { MemoryRouter } from 'react-router-dom'
+import { render } from '@testing-library/react'
+import { userEvent } from '@testing-library/user-event'
 import { HelmetProvider } from 'react-helmet-async'
+import { MemoryRouter } from 'react-router-dom'
 
 import { queryClient } from '@/lib/react-query'
 
@@ -28,11 +28,13 @@ describe('<SignIn />', () => {
       wrapper: ({ children }) => {
         return (
           <HelmetProvider>
-            <MemoryRouter initialEntries={['/auth/sign-in?email=Jr5wA@example.com']}>
-            <QueryClientProvider client={queryClient}>
-              {children}
-            </QueryClientProvider>
-          </MemoryRouter>
+            <MemoryRouter
+              initialEntries={['/auth/sign-in?email=Jr5wA@example.com']}
+            >
+              <QueryClientProvider client={queryClient}>
+                {children}
+              </QueryClientProvider>
+            </MemoryRouter>
           </HelmetProvider>
         )
       },
@@ -95,6 +97,3 @@ describe('<SignIn />', () => {
     expect(link).toHaveAttribute('href', '/user/sign-up')
   })
 })
-
-
-

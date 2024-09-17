@@ -1,5 +1,5 @@
 import { api } from '@/lib/axios'
-import { OrderStatusType } from '@/pages/app/orders/modules/order-status'
+import type { OrderStatusType } from '@/pages/app/orders/modules/order-status'
 
 interface GetOrderDetailsParams {
   orderId: string

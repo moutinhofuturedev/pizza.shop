@@ -79,7 +79,10 @@ export const PopularProductChart = () => {
                 {popularProducts.map((_, index) => {
                   return (
                     <Cell
-                      key={`cell-${index}`}
+                      key={`cell-${
+                        // biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
+                        index
+                      }`}
                       fill={COLORS[index]}
                       className="stroke-background transition-opacity duration-200 hover:opacity-60"
                     />

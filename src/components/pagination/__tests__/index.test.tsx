@@ -17,7 +17,7 @@ describe('<Pagination />', () => {
         perPage={10}
         pageIndex={0}
         onPageChange={onPageChangeCallback}
-      />,
+      />
     )
 
     const totalResults = screen.getByText('Total de 200 item(s)')
@@ -35,7 +35,7 @@ describe('<Pagination />', () => {
         totalCount={200}
         perPage={10}
         onPageChange={onPageChangeCallback}
-      />,
+      />
     )
 
     const nextPageButton = wrapper.getByRole('button', {
@@ -54,7 +54,7 @@ describe('<Pagination />', () => {
         totalCount={200}
         perPage={10}
         onPageChange={onPageChangeCallback}
-      />,
+      />
     )
 
     const previousPageButton = wrapper.getByRole('button', {
@@ -73,7 +73,7 @@ describe('<Pagination />', () => {
         totalCount={200}
         perPage={10}
         onPageChange={onPageChangeCallback}
-      />,
+      />
     )
 
     const firstPageButton = wrapper.getByRole('button', {
@@ -92,7 +92,7 @@ describe('<Pagination />', () => {
         totalCount={200}
         perPage={10}
         onPageChange={onPageChangeCallback}
-      />,
+      />
     )
 
     const lastPageButton = wrapper.getByRole('button', {

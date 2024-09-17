@@ -23,7 +23,7 @@ describe('<OrderStatus />', () => {
 
   it('should render display order status correctly', () => {
     const { container } = render(
-      <OrderStatus status={OrderStatusType.Pending} />,
+      <OrderStatus status={OrderStatusType.Pending} />
     )
 
     expect(container).toMatchSnapshot()

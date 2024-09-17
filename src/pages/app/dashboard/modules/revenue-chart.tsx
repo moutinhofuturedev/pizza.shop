@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import dayjs from 'dayjs'
 import { Loader2 } from 'lucide-react'
 import { useMemo, useState } from 'react'
-import { DateRange } from 'react-day-picker'
+import type { DateRange } from 'react-day-picker'
 import {
   CartesianGrid,
   Line,
@@ -42,7 +42,7 @@ export const RevenueChart = () => {
   })
 
   const chartData = useMemo(() => {
-    return dailyRevenueInPeriod?.map((chartItem) => {
+    return dailyRevenueInPeriod?.map(chartItem => {
       return {
         date: chartItem.date,
         receipt: chartItem.receipt / 100,
