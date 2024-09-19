@@ -6,13 +6,15 @@ export const signInMock = http.post<never, SignInBody>(
   async ({ request }) => {
     const { email } = await request.json()
 
-    if (email === 'wGx2h@example.com') {
-      return new HttpResponse(null, {
+    if (email === 'Jr5wA@example.com') {
+      return new HttpResponse(JSON.stringify({ token: 'sample-jwt' }), {
         status: 200,
         headers: { 'Set-Cookie': 'auth=sample-jwt' },
       })
     }
 
-    return new HttpResponse(null, { status: 401 })
+    return new HttpResponse(JSON.stringify({ error: 'Invalid credentials' }), {
+      status: 401,
+    })
   }
 )
