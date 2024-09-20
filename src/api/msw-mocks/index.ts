@@ -8,6 +8,9 @@ import { getMonthCanceledOrdersAmountMock } from './dashboard/get-month-canceled
 import { getMonthOrdersAmountMock } from './dashboard/get-month-orders-amount-mock'
 import { getMonthRevenueMock } from './dashboard/get-month-revenue-mock'
 import { getPopularProductsMock } from './dashboard/get-popular-products-mock'
+import { updateProfileMock } from './profile//update-profile-mock'
+import { getManagedRestaurantMock } from './profile/get-managed-restaurant-mock'
+import { getProfileMock } from './profile/get-profile-mock'
 
 export const worker = setupWorker(
   signInMock,
@@ -17,7 +20,10 @@ export const worker = setupWorker(
   getMonthOrdersAmountMock,
   getMonthRevenueMock,
   getPopularProductsMock,
-  getDailyRevenueInPeriodMock
+  getDailyRevenueInPeriodMock,
+  getProfileMock,
+  getManagedRestaurantMock,
+  updateProfileMock
 )
 
 export const enabledWorker = async () => {
