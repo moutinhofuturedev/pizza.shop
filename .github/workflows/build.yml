@@ -5,7 +5,8 @@ on:
       - main
   pull_request:
     branches:
-        - main
+      - main
+
 jobs:
   sonarcloud:
     name: SonarCloud
@@ -14,21 +15,18 @@ jobs:
       - name: Checkout code  
         uses: actions/checkout@v4
         with:
-            fetch-depth: 0 
+            fetch-depth: 1 
        
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 18
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Run tests and coverage
-        run: npm run test:coverage
-
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v3
+        run: npm run test -- --coverage
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
