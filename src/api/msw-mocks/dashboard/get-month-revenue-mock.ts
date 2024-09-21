@@ -1,5 +1,5 @@
+import type { GetMonthRevenueResponse } from '@/api/get/dashboard/get-month-revenue'
 import { http, HttpResponse } from 'msw'
-import type { GetMonthRevenueResponse } from '../../get/dashboard/get-month-revenue'
 
 export const getMonthRevenueMock = http.get<
   never,

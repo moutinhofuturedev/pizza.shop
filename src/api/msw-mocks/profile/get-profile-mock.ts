@@ -1,5 +1,5 @@
+import type { GetProfileResponsePick } from '@/api/get/get-profile'
 import { http, HttpResponse } from 'msw'
-import type { GetProfileResponsePick } from '../../get/get-profile'
 
 export const getProfileMock = http.get<never, never, GetProfileResponsePick>(
   '/me',

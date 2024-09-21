@@ -1,5 +1,5 @@
+import type { GetMonthCanceledOrdersAmountResponse } from '@/api/get/dashboard/get-month-canceled-orders-amount'
 import { http, HttpResponse } from 'msw'
-import type { GetMonthCanceledOrdersAmountResponse } from '../../get/dashboard/get-month-canceled-orders-amount'
 
 export const getMonthCanceledOrdersAmountMock = http.get<
   never,

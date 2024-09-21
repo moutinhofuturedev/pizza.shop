@@ -1,5 +1,5 @@
+import type { GetManagedRestaurantResponsePick } from '@/api/get/orders/get-managed-restaurant'
 import { http, HttpResponse } from 'msw'
-import type { GetManagedRestaurantResponsePick } from '../../get/orders/get-managed-restaurant'
 
 export const getManagedRestaurantMock = http.get<
   never,

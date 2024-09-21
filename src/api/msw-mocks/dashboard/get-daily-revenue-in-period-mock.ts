@@ -1,5 +1,5 @@
+import type { GetDailyRevenueInPeriodResponse } from '@/api/get/dashboard/get-daily-revenue-in-period'
 import { http, HttpResponse } from 'msw'
-import type { GetDailyRevenueInPeriodResponse } from '../../get/dashboard/get-daily-revenue-in-period'
 
 export const getDailyRevenueInPeriodMock = http.get<
   never,

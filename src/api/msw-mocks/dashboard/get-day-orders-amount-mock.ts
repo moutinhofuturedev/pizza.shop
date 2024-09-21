@@ -1,5 +1,5 @@
+import type { GetDayOrdersAmountResponse } from '@/api/get/dashboard/get-day-orders-amount'
 import { http, HttpResponse } from 'msw'
-import type { GetDayOrdersAmountResponse } from '../../get/dashboard/get-day-orders-amount'
 
 export const getDayOrdersAmountMock = http.get<
   never,
