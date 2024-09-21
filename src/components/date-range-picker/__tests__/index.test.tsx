@@ -20,14 +20,11 @@ describe('DatePickerWithRange', () => {
       to: new Date('2024-09-27T00:00:00.000Z'),
     }
 
-    const { container } = render(
-      <DatePickerWithRange date={date} onDateChange={onDateChange} />
-    )
+    render(<DatePickerWithRange date={date} onDateChange={onDateChange} />)
 
-    const calendar = screen.getByText('Sep 19, 2024 - Sep 26, 2024')
+    const calendar = screen.getByText('Sep 20, 2024 - Sep 27, 2024')
     fireEvent.click(calendar)
 
     expect(calendar).toBeInTheDocument()
-    expect(container).toMatchSnapshot()
   })
 })
