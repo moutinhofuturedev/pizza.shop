@@ -17,7 +17,7 @@ export default defineConfig({
       all: true,
       enabled: true,
       reporter: ['text', 'lcov', 'cobertura', 'html', 'json'], // Gera o relatório LCOV necessário para o SonarCloud
-      reportsDirectory: './coverage', // Diretorio para salvar os arquivos de cobertura
+      reportsDirectory: './coverage/lcov-report/', // Diretorio para salvar os arquivos de cobertura
       include: [
         'src/**/*.{ts,tsx}',
         '__mocks__/**',
