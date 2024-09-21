@@ -43,10 +43,10 @@ exports[`DatePickerWithRange > renders with a date range selected 1`] = `
           d="M3 10h18"
         />
       </svg>
-      Dec 31, 2021
+      Sep 19, 2024
        -
        
-      Jan 30, 2022
+      Sep 26, 2024
     </button>
   </div>
 </div>
