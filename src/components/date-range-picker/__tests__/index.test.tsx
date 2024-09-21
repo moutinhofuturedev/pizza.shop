@@ -2,10 +2,6 @@ import { fireEvent, render, screen } from '@testing-library/react'
 import { DatePickerWithRange } from '../index'
 
 describe('DatePickerWithRange', () => {
-  beforeEach(() => {
-    vi.useFakeTimers()
-  })
-
   it('renders with no date', () => {
     const onDateChange = vi.fn()
     const date = { from: undefined, to: undefined }
