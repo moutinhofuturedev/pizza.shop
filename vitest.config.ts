@@ -35,6 +35,7 @@ export default defineConfig({
         '**/public/**',
         '**/pages/_layouts/**',
         '**/src/**/loading/**',
+        '**/src/components/ui/**',
         '**/src/lib/**',
         '**/src/App.tsx',
         '**/src/env.ts',
