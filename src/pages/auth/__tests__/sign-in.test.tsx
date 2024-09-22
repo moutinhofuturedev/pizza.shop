@@ -7,7 +7,7 @@
 // }))
 
 import { QueryClientProvider } from '@tanstack/react-query'
-import { render } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import { userEvent } from '@testing-library/user-event'
 import { HelmetProvider } from 'react-helmet-async'
 import { MemoryRouter } from 'react-router-dom'
@@ -24,7 +24,7 @@ describe('<SignIn />', () => {
   })
 
   it('should set default email input value if email is present on search params', () => {
-    const wrapper = render(<SignIn />, {
+    render(<SignIn />, {
       wrapper: ({ children }) => {
         return (
           <HelmetProvider>
@@ -40,13 +40,13 @@ describe('<SignIn />', () => {
       },
     })
 
-    const emailInput = wrapper.getByLabelText('Seu e-mail')
+    const emailInput = screen.getByLabelText('Seu e-mail')
 
     expect(emailInput).toHaveValue('Jr5wA@example.com')
   })
 
   it('should show error message when submitting form with invalid email format', async () => {
-    const wrapper = render(<SignIn />, {
+    render(<SignIn />, {
       wrapper: ({ children }) => {
         return (
           <HelmetProvider>
@@ -62,20 +62,20 @@ describe('<SignIn />', () => {
       },
     })
 
-    const emailInput = wrapper.getByLabelText('Seu e-mail')
-    const submitButton = wrapper.getByRole('button', {
+    const emailInput = screen.getByLabelText('Seu e-mail')
+    const submitButton = screen.getByRole('button', {
       name: /acessar painel/i,
     })
 
     await userEvent.type(emailInput, 'invalid-email')
     await userEvent.click(submitButton)
-    const errorMessage = await wrapper.findByText(/e-mail inválido/i)
+    const errorMessage = await screen.findByText(/e-mail inválido/i)
 
     expect(errorMessage).toBeInTheDocument()
   })
 
   it('should render the "Novo estabelecimento" link', () => {
-    const wrapper = render(<SignIn />, {
+    render(<SignIn />, {
       wrapper: ({ children }) => {
         return (
           <HelmetProvider>
@@ -89,11 +89,13 @@ describe('<SignIn />', () => {
       },
     })
 
-    const link = wrapper.getByRole('link', {
+    const link = screen.getByRole('link', {
       name: /novo estabelecimento/i,
     })
 
     expect(link).toBeInTheDocument()
-    expect(link).toHaveAttribute('href', '/user/sign-up')
+    waitFor(() => {
+      expect(window.location.pathname).toBe('/user/sign-up')
+    })
   })
 })

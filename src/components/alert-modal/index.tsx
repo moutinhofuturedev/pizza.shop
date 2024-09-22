@@ -38,7 +38,7 @@ export const AlertModal = () => {
           <span>Sair</span>
         </Button>
       </AlertDialogTrigger>
-      <AlertDialogContent>
+      <AlertDialogContent data-testid="alert-modal">
         <AlertDialogHeader>
           <AlertDialogTitle>Tem certeza que deseja sair?</AlertDialogTitle>
           <AlertDialogDescription>
@@ -47,7 +47,7 @@ export const AlertModal = () => {
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogCancel>Cancelar</AlertDialogCancel>
           <AlertDialogAction onClick={() => signOutFn()}>
             Continue
           </AlertDialogAction>
