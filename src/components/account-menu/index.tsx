@@ -41,6 +41,7 @@ export const AccountMenu = () => {
           <Button
             variant="outline"
             className="flex select-none items-center gap-2"
+            data-testid="account-menu"
           >
             <span className="font-medium max-sm:hidden">
               {isLoadingManagedRestaurant ? (
