@@ -22,7 +22,9 @@ describe('<AccountMenu />', () => {
     const button = screen.getByTestId('account-menu')
     await userEvent.click(button)
 
-    expect(screen.getByText('Restaurant Name')).toBeInTheDocument()
+    const restaurantName = screen.getByText('Restaurant Name')
+
+    expect(restaurantName).toBeInTheDocument()
   })
 
   it('should render profile data', async () => {
