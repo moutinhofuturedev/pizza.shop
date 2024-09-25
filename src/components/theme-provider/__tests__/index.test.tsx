@@ -1,6 +1,6 @@
 import { act, render, renderHook, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { createContext, useContext } from 'react'
+import { useContext } from 'react'
 import { ThemeProvider, ThemeProviderContext, useTheme } from '..'
 
 describe('ThemeProvider', () => {
@@ -67,18 +67,17 @@ describe('ThemeProvider', () => {
     )
 
     expect(document.documentElement.classList.contains('dark')).toBe(true)
+    // clear value from localStorage before next test
+    localStorage.removeItem('vite-ui-theme')
   })
 
-  it('should not throw an error when used within ThemeProvider', () => {
-    const ThemeProviderContext = createContext('light')
-    const TestComponent = () => {
-      expect(() => useTheme()).not.toThrow()
-      return null
-    }
-    render(
-      <ThemeProviderContext.Provider value="dark">
-        <TestComponent />
-      </ThemeProviderContext.Provider>
-    )
+  it('should have default theme as "system" and setTheme should not be null', () => {
+    const { result } = renderHook(() => useTheme(), {
+      wrapper: ({ children }) => <ThemeProvider>{children}</ThemeProvider>,
+    })
+
+    expect(result.current.theme).toBe('system')
+
+    expect(result.current.setTheme).not.toBe(null)
   })
 })
