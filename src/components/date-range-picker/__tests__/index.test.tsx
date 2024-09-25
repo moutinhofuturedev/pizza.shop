@@ -40,7 +40,7 @@ describe('DatePickerWithRange', () => {
       />
     )
 
-    const calendar = screen.getByText('Sep 19, 2024 - Sep 26, 2024')
+    const calendar = screen.getByText('Sep 20, 2024 - Sep 27, 2024')
     fireEvent.click(calendar)
 
     expect(calendar).toBeInTheDocument()
@@ -61,7 +61,7 @@ describe('DatePickerWithRange', () => {
       />
     )
 
-    const calendar = screen.getByText('Sep 19, 2024')
+    const calendar = screen.getByText('Sep 20, 2024')
     fireEvent.click(calendar)
 
     expect(calendar).toBeInTheDocument()
