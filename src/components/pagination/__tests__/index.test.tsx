@@ -29,7 +29,7 @@ describe('<Pagination />', () => {
   })
 
   it('should be able to navigate to the next page', async () => {
-    const wrapper = render(
+    render(
       <Pagination
         pageIndex={0}
         totalCount={200}
@@ -38,7 +38,7 @@ describe('<Pagination />', () => {
       />
     )
 
-    const nextPageButton = wrapper.getByRole('button', {
+    const nextPageButton = screen.getByRole('button', {
       name: 'Próxima página',
     })
 
@@ -48,7 +48,7 @@ describe('<Pagination />', () => {
   })
 
   it('should be able to navigate to the previous page', async () => {
-    const wrapper = render(
+    render(
       <Pagination
         pageIndex={1}
         totalCount={200}
@@ -57,7 +57,7 @@ describe('<Pagination />', () => {
       />
     )
 
-    const previousPageButton = wrapper.getByRole('button', {
+    const previousPageButton = screen.getByRole('button', {
       name: 'Página anterior',
     })
 
@@ -67,7 +67,7 @@ describe('<Pagination />', () => {
   })
 
   it('should be able to navigate to the first page', async () => {
-    const wrapper = render(
+    render(
       <Pagination
         pageIndex={1}
         totalCount={200}
@@ -76,7 +76,7 @@ describe('<Pagination />', () => {
       />
     )
 
-    const firstPageButton = wrapper.getByRole('button', {
+    const firstPageButton = screen.getByRole('button', {
       name: 'Primeira página',
     })
 
@@ -86,7 +86,7 @@ describe('<Pagination />', () => {
   })
 
   it('should be able to navigate to the last page', async () => {
-    const wrapper = render(
+    render(
       <Pagination
         pageIndex={1}
         totalCount={200}
@@ -95,12 +95,32 @@ describe('<Pagination />', () => {
       />
     )
 
-    const lastPageButton = wrapper.getByRole('button', {
+    const lastPageButton = screen.getByRole('button', {
       name: 'Última página',
     })
 
     await userEvent.click(lastPageButton)
 
     expect(onPageChangeCallback).toHaveBeenCalledWith(19)
+  })
+
+  it('should calculate correct number of pages when totalCount is a multiple of perPage', () => {
+    render(
+      <Pagination
+        pageIndex={1}
+        totalCount={200}
+        perPage={10}
+        onPageChange={onPageChangeCallback}
+      />
+    )
+
+    const totalCount = 100
+    const perPage = 10
+
+    // Act
+    const pages = Math.ceil(totalCount / perPage) || 1
+
+    // Assert
+    expect(pages).toBe(10)
   })
 })
