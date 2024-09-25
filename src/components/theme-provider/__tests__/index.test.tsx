@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { act, render, renderHook, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { useContext } from 'react'
 import { ThemeProvider, ThemeProviderContext } from '..'
@@ -39,5 +39,33 @@ describe('ThemeProvider', () => {
     userEvent.click(screen.getByText('Change Theme'))
 
     expect(screen.getByText('dark')).toBeInTheDocument()
+  })
+
+  it('should update localStorage when theme changes', () => {
+    const { result } = renderHook(() => useContext(ThemeProviderContext), {
+      wrapper: ({ children }) => <ThemeProvider>{children}</ThemeProvider>,
+    })
+
+    act(() => {
+      result.current.setTheme('dark')
+    })
+
+    expect(localStorage.getItem('vite-ui-theme')).toBe('dark')
+  })
+
+  it('should react to changes in system theme preference', () => {
+    window.matchMedia = vi.fn().mockImplementation(query => ({
+      matches: query === '(prefers-color-scheme: dark)',
+      addListener: vi.fn(),
+      removeListener: vi.fn(),
+    }))
+
+    render(
+      <ThemeProvider defaultTheme="system">
+        <div>Test</div>
+      </ThemeProvider>
+    )
+
+    expect(document.documentElement.classList.contains('dark')).toBe(true)
   })
 })
