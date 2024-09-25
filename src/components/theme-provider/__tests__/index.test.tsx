@@ -1,7 +1,7 @@
 import { act, render, renderHook, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { useContext } from 'react'
-import { ThemeProvider, ThemeProviderContext } from '..'
+import { createContext, useContext } from 'react'
+import { ThemeProvider, ThemeProviderContext, useTheme } from '..'
 
 describe('ThemeProvider', () => {
   it('should initialize theme from localStorage or defaultTheme', () => {
@@ -67,5 +67,18 @@ describe('ThemeProvider', () => {
     )
 
     expect(document.documentElement.classList.contains('dark')).toBe(true)
+  })
+
+  it('should not throw an error when used within ThemeProvider', () => {
+    const ThemeProviderContext = createContext('light')
+    const TestComponent = () => {
+      expect(() => useTheme()).not.toThrow()
+      return null
+    }
+    render(
+      <ThemeProviderContext.Provider value="dark">
+        <TestComponent />
+      </ThemeProviderContext.Provider>
+    )
   })
 })
