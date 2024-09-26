@@ -104,6 +104,10 @@ describe('<SignIn />', () => {
 
 		waitFor(() => {
 			expect(handleSubmitForm).toHaveBeenCalled()
+			expect(toast.success).toHaveBeenCalledWith(
+				'Enviamos um link de autenticação para o seu email',
+			)
+			expect(emailInput).toHaveValue('')
 		})
 	})
 
