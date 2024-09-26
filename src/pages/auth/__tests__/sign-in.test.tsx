@@ -78,7 +78,9 @@ describe('<SignIn />', () => {
 	})
 
 	it('deve enviar o formulário e mostrar um toast de sucesso', async () => {
-		handleSubmitForm.mockImplementation(() => Promise.resolve())
+		authenticateMock.mockResolvedValueOnce(
+			new Response('Enviamos um link de autenticação para o seu email'),
+		)
 
 		render(<SignIn />, {
 			wrapper: ({ children }) => {
@@ -104,11 +106,14 @@ describe('<SignIn />', () => {
 
 		waitFor(() => {
 			expect(handleSubmitForm).toHaveBeenCalled()
+			expect(authenticateMock).toHaveBeenCalledWith({
+				email: 'test@example.com',
+			})
 			expect(toast.success).toHaveBeenCalledWith(
 				'Enviamos um link de autenticação para o seu email',
 			)
-			expect(emailInput).toHaveValue('')
 		})
+		expect(emailInput).toHaveTextContent('')
 	})
 
 	it('deve mostrar um toast de erro se a autenticação falhar', async () => {
