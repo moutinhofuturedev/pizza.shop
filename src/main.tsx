@@ -5,10 +5,9 @@ import { App } from './App.tsx'
 import { enabledWorker } from './api/msw-mocks'
 
 enabledWorker().then(() => {
-  // biome-ignore lint/style/noNonNullAssertion: <explanation>
-  ReactDOM.createRoot(document.getElementById('root')!).render(
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
-  )
+	ReactDOM.createRoot(document.getElementById('root')!).render(
+		<React.StrictMode>
+			<App />
+		</React.StrictMode>,
+	)
 })

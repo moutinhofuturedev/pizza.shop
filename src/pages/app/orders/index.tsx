@@ -7,11 +7,11 @@ import { getManagedRestaurant } from '@/api/get/orders/get-managed-restaurant'
 import { getOrders } from '@/api/get/orders/get-orders'
 import { Pagination } from '@/components/pagination'
 import {
-  Table,
-  TableBody,
-  TableHead,
-  TableHeader,
-  TableRow,
+	Table,
+	TableBody,
+	TableHead,
+	TableHeader,
+	TableRow,
 } from '@/components/ui/table'
 
 import { OrderTableSkeleton } from './loading/order-table-skeleton'
@@ -19,89 +19,89 @@ import { OrderTableFilter } from './modules/order-table-filter'
 import { OrderTableRow } from './modules/order-table-row'
 
 export const Orders = () => {
-  const [searchParams, setSearchParams] = useSearchParams()
+	const [searchParams, setSearchParams] = useSearchParams()
 
-  const orderId = searchParams.get('orderId')
-  const customerName = searchParams.get('customerName')
-  const status = searchParams.get('status')
+	const orderId = searchParams.get('orderId')
+	const customerName = searchParams.get('customerName')
+	const status = searchParams.get('status')
 
-  const pageIndex = z.coerce
-    .number()
-    .transform(page => page - 1)
-    .parse(searchParams.get('page') ?? '1')
+	const pageIndex = z.coerce
+		.number()
+		.transform(page => page - 1)
+		.parse(searchParams.get('page') ?? '1')
 
-  const handlePaginate = (pageIndex: number) => {
-    setSearchParams(prev => {
-      prev.set('page', String(pageIndex + 1))
+	const handlePaginate = (pageIndex: number) => {
+		setSearchParams(prev => {
+			prev.set('page', String(pageIndex + 1))
 
-      return prev
-    })
-  }
+			return prev
+		})
+	}
 
-  const { data: managedRestaurant, isLoading } = useQuery({
-    queryKey: ['managed-restaurant'],
-    queryFn: getManagedRestaurant,
-    // biome-ignore lint/style/useNumberNamespace: <explanation>
-    staleTime: Infinity,
-  })
+	const { data: managedRestaurant, isLoading } = useQuery({
+		queryKey: ['managed-restaurant'],
+		queryFn: getManagedRestaurant,
+		// biome-ignore lint/style/useNumberNamespace: <explanation>
+		staleTime: Infinity,
+	})
 
-  const { data: orderResult, isLoading: isLoadingOrders } = useQuery({
-    queryKey: ['orders', pageIndex, orderId, customerName, status],
-    queryFn: () =>
-      getOrders({
-        pageIndex,
-        orderId,
-        customerName,
-        status: status === 'all' ? null : status,
-      }),
-    staleTime: 1000 * 60, // 1 min
-  })
+	const { data: orderResult, isLoading: isLoadingOrders } = useQuery({
+		queryKey: ['orders', pageIndex, orderId, customerName, status],
+		queryFn: () =>
+			getOrders({
+				pageIndex,
+				orderId,
+				customerName,
+				status: status === 'all' ? null : status,
+			}),
+		staleTime: 1000 * 60, // 1 min
+	})
 
-  return (
-    <>
-      <Helmet
-        title={`Pedidos | ${isLoading ? 'Carregando...' : managedRestaurant?.name}`}
-      />
-      <div className="flex flex-col gap-4">
-        <h1 className="tracking-tight text-3xl font-bold">Pedidos</h1>
-        <div className="space-y-2.5">
-          <OrderTableFilter />
+	return (
+		<>
+			<Helmet
+				title={`Pedidos | ${isLoading ? 'Carregando...' : managedRestaurant?.name}`}
+			/>
+			<div className='flex flex-col gap-4'>
+				<h1 className='tracking-tight text-3xl font-bold'>Pedidos</h1>
+				<div className='space-y-2.5'>
+					<OrderTableFilter />
 
-          <div className="rounded-md border">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="w-[48px]" />
-                  <TableHead className="w-[102px]">Identificador</TableHead>
-                  <TableHead className="w-[120px]">Realizado há</TableHead>
-                  <TableHead className="w-[164px]">Status</TableHead>
-                  <TableHead className="w-[240px]">Cliente</TableHead>
-                  <TableHead className="w-[140px]">Total do pedido</TableHead>
-                  <TableHead className="w-[124px]" />
-                  <TableHead className="w-[124px]" />
-                </TableRow>
-              </TableHeader>
+					<div className='rounded-md border'>
+						<Table>
+							<TableHeader>
+								<TableRow>
+									<TableHead className='w-[48px]' />
+									<TableHead className='w-[102px]'>Identificador</TableHead>
+									<TableHead className='w-[120px]'>Realizado há</TableHead>
+									<TableHead className='w-[164px]'>Status</TableHead>
+									<TableHead className='w-[240px]'>Cliente</TableHead>
+									<TableHead className='w-[140px]'>Total do pedido</TableHead>
+									<TableHead className='w-[124px]' />
+									<TableHead className='w-[124px]' />
+								</TableRow>
+							</TableHeader>
 
-              <TableBody>
-                {isLoadingOrders && <OrderTableSkeleton />}
-                {/* biome-ignore lint/complexity/useOptionalChain: <explanation> */}
-                {orderResult &&
-                  orderResult.orders.map(order => (
-                    <OrderTableRow key={order.orderId} order={order} />
-                  ))}
-              </TableBody>
-            </Table>
-          </div>
-          {orderResult && (
-            <Pagination
-              onPageChange={handlePaginate}
-              pageIndex={orderResult.meta.pageIndex}
-              totalCount={orderResult.meta.totalCount}
-              perPage={orderResult.meta.perPage}
-            />
-          )}
-        </div>
-      </div>
-    </>
-  )
+							<TableBody>
+								{isLoadingOrders && <OrderTableSkeleton />}
+								{/* biome-ignore lint/complexity/useOptionalChain: <explanation> */}
+								{orderResult &&
+									orderResult.orders.map(order => (
+										<OrderTableRow key={order.orderId} order={order} />
+									))}
+							</TableBody>
+						</Table>
+					</div>
+					{orderResult && (
+						<Pagination
+							onPageChange={handlePaginate}
+							pageIndex={orderResult.meta.pageIndex}
+							totalCount={orderResult.meta.totalCount}
+							perPage={orderResult.meta.perPage}
+						/>
+					)}
+				</div>
+			</div>
+		</>
+	)
 }
