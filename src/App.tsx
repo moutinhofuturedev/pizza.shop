@@ -11,19 +11,19 @@ import { queryClient } from './lib/react-query'
 import { router } from './routes'
 
 export const App = () => {
-  return (
-    <HelmetProvider>
-      <ThemeProvider storageKey="pizzashop-theme" defaultTheme="system">
-        <Toaster richColors />
-        <QueryClientProvider client={queryClient}>
-          <RouterProvider router={router} />
-          <ReactQueryDevtools
-            initialIsOpen={true}
-            client={queryClient}
-            key={'pizzashop-devtools'}
-          />
-        </QueryClientProvider>
-      </ThemeProvider>
-    </HelmetProvider>
-  )
+	return (
+		<HelmetProvider>
+			<ThemeProvider storageKey='pizzashop-theme' defaultTheme='system'>
+				<Toaster richColors />
+				<QueryClientProvider client={queryClient}>
+					<RouterProvider router={router} />
+					<ReactQueryDevtools
+						initialIsOpen={true}
+						client={queryClient}
+						key={'pizzashop-devtools'}
+					/>
+				</QueryClientProvider>
+			</ThemeProvider>
+		</HelmetProvider>
+	)
 }

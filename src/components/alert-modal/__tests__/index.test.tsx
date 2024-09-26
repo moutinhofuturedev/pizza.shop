@@ -6,119 +6,119 @@ import { MemoryRouter } from 'react-router-dom'
 import { AlertModal } from '..'
 
 vi.mock('@/api/post/sign-out', () => ({
-  signOut: () => {
-    return Promise.resolve()
-  },
+	signOut: () => {
+		return Promise.resolve()
+	},
 }))
 
 describe('<AlertModal />', () => {
-  it('should open modal when button is clicked', async () => {
-    render(<AlertModal />, {
-      wrapper: ({ children }) => {
-        return (
-          <QueryClientProvider client={queryClient}>
-            <MemoryRouter initialEntries={['/']}>{children}</MemoryRouter>
-          </QueryClientProvider>
-        )
-      },
-    })
+	it('should open modal when button is clicked', async () => {
+		render(<AlertModal />, {
+			wrapper: ({ children }) => {
+				return (
+					<QueryClientProvider client={queryClient}>
+						<MemoryRouter initialEntries={['/']}>{children}</MemoryRouter>
+					</QueryClientProvider>
+				)
+			},
+		})
 
-    const button = screen.getByRole('button', { name: /sair/i })
-    await userEvent.click(button)
+		const button = screen.getByRole('button', { name: /sair/i })
+		await userEvent.click(button)
 
-    const text1 = screen.getByText(/tem certeza que deseja sair\?/i)
-    const text2 = screen.getByText(
-      /para acessar os dados do seu estabelecimento, você precisará fazer login novamente./i
-    )
+		const text1 = screen.getByText(/tem certeza que deseja sair\?/i)
+		const text2 = screen.getByText(
+			/para acessar os dados do seu estabelecimento, você precisará fazer login novamente./i,
+		)
 
-    expect(text1).toBeInTheDocument()
-    expect(text2).toBeInTheDocument()
-  })
+		expect(text1).toBeInTheDocument()
+		expect(text2).toBeInTheDocument()
+	})
 
-  it('should call sign-out function when "Continue" is clicked', async () => {
-    render(<AlertModal />, {
-      wrapper: ({ children }) => {
-        return (
-          <QueryClientProvider client={queryClient}>
-            <MemoryRouter initialEntries={['/']}>{children}</MemoryRouter>
-          </QueryClientProvider>
-        )
-      },
-    })
+	it('should call sign-out function when "Continue" is clicked', async () => {
+		render(<AlertModal />, {
+			wrapper: ({ children }) => {
+				return (
+					<QueryClientProvider client={queryClient}>
+						<MemoryRouter initialEntries={['/']}>{children}</MemoryRouter>
+					</QueryClientProvider>
+				)
+			},
+		})
 
-    const button = screen.getByRole('button', { name: /sair/i })
-    await userEvent.click(button)
+		const button = screen.getByRole('button', { name: /sair/i })
+		await userEvent.click(button)
 
-    const cancelButton = screen.getByText('Cancelar')
-    const continueButton = screen.getByText('Continue')
+		const cancelButton = screen.getByText('Cancelar')
+		const continueButton = screen.getByText('Continue')
 
-    expect(cancelButton).toBeInTheDocument()
-    expect(continueButton).toBeInTheDocument()
-  })
+		expect(cancelButton).toBeInTheDocument()
+		expect(continueButton).toBeInTheDocument()
+	})
 
-  it('should close modal when "Cancel" is clicked', async () => {
-    render(<AlertModal />, {
-      wrapper: ({ children }) => {
-        return (
-          <QueryClientProvider client={queryClient}>
-            <MemoryRouter initialEntries={['/']}>{children}</MemoryRouter>
-          </QueryClientProvider>
-        )
-      },
-    })
+	it('should close modal when "Cancel" is clicked', async () => {
+		render(<AlertModal />, {
+			wrapper: ({ children }) => {
+				return (
+					<QueryClientProvider client={queryClient}>
+						<MemoryRouter initialEntries={['/']}>{children}</MemoryRouter>
+					</QueryClientProvider>
+				)
+			},
+		})
 
-    const button = screen.getByRole('button', { name: /sair/i })
-    await userEvent.click(button)
+		const button = screen.getByRole('button', { name: /sair/i })
+		await userEvent.click(button)
 
-    const cancelButton = screen.getByText('Cancelar')
-    await userEvent.click(cancelButton)
+		const cancelButton = screen.getByText('Cancelar')
+		await userEvent.click(cancelButton)
 
-    const modal = screen.findByTestId('alert-modal')
+		const modal = screen.findByTestId('alert-modal')
 
-    expect(modal).not.toContain('Cancelar')
-  })
+		expect(modal).not.toContain('Cancelar')
+	})
 
-  it('should ignore button click when already disabled', async () => {
-    render(<AlertModal />, {
-      wrapper: ({ children }) => {
-        return (
-          <QueryClientProvider client={queryClient}>
-            <MemoryRouter initialEntries={['/']}>{children}</MemoryRouter>
-          </QueryClientProvider>
-        )
-      },
-    })
+	it('should ignore button click when already disabled', async () => {
+		render(<AlertModal />, {
+			wrapper: ({ children }) => {
+				return (
+					<QueryClientProvider client={queryClient}>
+						<MemoryRouter initialEntries={['/']}>{children}</MemoryRouter>
+					</QueryClientProvider>
+				)
+			},
+		})
 
-    const button = screen.getByRole('button', { name: /sair/i })
-    await userEvent.click(button)
+		const button = screen.getByRole('button', { name: /sair/i })
+		await userEvent.click(button)
 
-    waitFor(() => {
-      expect(button).toBeDisabled()
-    })
-  })
+		waitFor(() => {
+			expect(button).toBeDisabled()
+		})
+	})
 
-  it('should navigate to "/user/sign-in" on successful sign-out', async () => {
-    const navigate = vi.fn()
+	it('should navigate to "/user/sign-in" on successful sign-out', async () => {
+		const navigate = vi.fn()
 
-    render(<AlertModal />, {
-      wrapper: ({ children }) => {
-        return (
-          <QueryClientProvider client={queryClient}>
-            <MemoryRouter initialEntries={['/']}>{children}</MemoryRouter>
-          </QueryClientProvider>
-        )
-      },
-    })
+		render(<AlertModal />, {
+			wrapper: ({ children }) => {
+				return (
+					<QueryClientProvider client={queryClient}>
+						<MemoryRouter initialEntries={['/']}>{children}</MemoryRouter>
+					</QueryClientProvider>
+				)
+			},
+		})
 
-    const button = screen.getByRole('button', { name: /sair/i })
-    await userEvent.click(button)
+		const button = screen.getByRole('button', { name: /sair/i })
+		await userEvent.click(button)
 
-    const continueButton = screen.getByText('Continue')
-    await userEvent.click(continueButton)
+		const continueButton = screen.getByText('Continue')
+		await userEvent.click(continueButton)
 
-    waitFor(() => {
-      expect(navigate).toHaveBeenCalled()
-      expect(window.location.pathname).toBe('/user/sign-in')
-    })
-  })
+		waitFor(() => {
+			expect(navigate).toHaveBeenCalled()
+			expect(window.location.pathname).toBe('/user/sign-in')
+		})
+	})
 })

@@ -1,0 +1,33 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`<404 /> > should render correctly 1`] = `
+<div>
+  <div
+    class="flex h-screen flex-col items-center justify-center"
+  >
+    <div
+      class="mx-auto max-w-screen-xl px-4 py-8 max-md:py-16 lg:px-6"
+    >
+      <div
+        class="mx-auto max-w-screen-sm text-center"
+      >
+        <h1
+          class="mb-4 text-5xl font-extrabold tracking-tight text-muted-foreground max-lg:text-7xl"
+        >
+          Whoops!404
+        </h1>
+        <p
+          class="tracking-tigh mb-4 text-lg font-bold text-muted-foreground dark:text-white max-lg:text-4xl"
+        >
+          Página não encontrada.
+        </p>
+        <button
+          class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2"
+        >
+          Volte para o Dashboard
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+`;

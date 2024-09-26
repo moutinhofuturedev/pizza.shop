@@ -41,7 +41,6 @@ export default defineConfig({
         '**/src/env.ts',
         '**/src/routes.tsx',
         '**/src/main.tsx',
-        '**/src/pages/404.tsx',
         '**/src/pages/Error.tsx',
       ],
     },
