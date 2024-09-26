@@ -25,7 +25,7 @@ describe('DatePickerWithRange', () => {
 		expect(calendar).toBeInTheDocument()
 	})
 
-	it.skip('renders with a date range selected', () => {
+	it('renders with a date range selected', () => {
 		const date = {
 			from: new Date('2024-09-20T00:00:00.000Z'),
 			to: new Date('2024-09-27T00:00:00.000Z'),
@@ -46,7 +46,7 @@ describe('DatePickerWithRange', () => {
 		expect(calendar).toBeInTheDocument()
 	})
 
-	it.skip('renders with only from date selected', () => {
+	it('renders with only from date selected', () => {
 		const date = {
 			from: new Date('2024-09-20T00:00:00.000Z'),
 			to: undefined,
