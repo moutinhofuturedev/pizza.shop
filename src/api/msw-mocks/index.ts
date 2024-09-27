@@ -18,28 +18,28 @@ import { getManagedRestaurantMock } from './profile/get-managed-restaurant-mock'
 import { getProfileMock } from './profile/get-profile-mock'
 
 export const worker = setupWorker(
-  signInMock,
-  registerRestaurantMock,
-  getDayOrdersAmountMock,
-  getMonthCanceledOrdersAmountMock,
-  getMonthOrdersAmountMock,
-  getMonthRevenueMock,
-  getPopularProductsMock,
-  getDailyRevenueInPeriodMock,
-  getProfileMock,
-  getManagedRestaurantMock,
-  updateProfileMock,
-  getOrdersMock,
-  getOrdersDetailsMock,
-  approveOrderMock,
-  cancelOrderMock,
-  deliverOrderMock
+	signInMock,
+	registerRestaurantMock,
+	getDayOrdersAmountMock,
+	getMonthCanceledOrdersAmountMock,
+	getMonthOrdersAmountMock,
+	getMonthRevenueMock,
+	getPopularProductsMock,
+	getDailyRevenueInPeriodMock,
+	getProfileMock,
+	getManagedRestaurantMock,
+	updateProfileMock,
+	getOrdersMock,
+	getOrdersDetailsMock,
+	approveOrderMock,
+	cancelOrderMock,
+	deliverOrderMock,
 )
 
 export const enabledWorker = async () => {
-  if (env.MODE !== 'test') {
-    return
-  }
+	if (env.MODE !== 'test') {
+		return
+	}
 
-  await worker.start()
+	await worker.start()
 }

@@ -2,12 +2,12 @@ import type { GetMonthCanceledOrdersAmountResponse } from '@/api/get/dashboard/g
 import { http, HttpResponse } from 'msw'
 
 export const getMonthCanceledOrdersAmountMock = http.get<
-  never,
-  never,
-  GetMonthCanceledOrdersAmountResponse
+	never,
+	never,
+	GetMonthCanceledOrdersAmountResponse
 >('/metrics/month-canceled-orders-amount', () => {
-  return HttpResponse.json({
-    amount: 5,
-    diffFromLastMonth: -5,
-  })
+	return HttpResponse.json({
+		amount: 5,
+		diffFromLastMonth: -5,
+	})
 })

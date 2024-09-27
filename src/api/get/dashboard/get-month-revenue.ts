@@ -1,14 +1,14 @@
 import { api } from '@/lib/axios'
 
 export interface GetMonthRevenueResponse {
-  receipt: number
-  diffFromLastMonth: number
+	receipt: number
+	diffFromLastMonth: number
 }
 
 export const getMonthRevenue = async () => {
-  const response = await api.get<GetMonthRevenueResponse>(
-    '/metrics/month-receipt'
-  )
+	const response = await api.get<GetMonthRevenueResponse>(
+		'/metrics/month-receipt',
+	)
 
-  return response.data
+	return response.data
 }

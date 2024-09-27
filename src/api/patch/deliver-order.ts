@@ -1,9 +1,9 @@
 import { api } from '@/lib/axios'
 
 export interface DeliverOrderParams {
-  orderId: string
+	orderId: string
 }
 
 export const deliverOrder = async ({ orderId }: DeliverOrderParams) => {
-  await api.patch(`/orders/${orderId}/deliver`)
+	await api.patch(`/orders/${orderId}/deliver`)
 }

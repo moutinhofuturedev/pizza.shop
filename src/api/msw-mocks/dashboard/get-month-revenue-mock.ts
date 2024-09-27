@@ -2,12 +2,12 @@ import type { GetMonthRevenueResponse } from '@/api/get/dashboard/get-month-reve
 import { http, HttpResponse } from 'msw'
 
 export const getMonthRevenueMock = http.get<
-  never,
-  never,
-  GetMonthRevenueResponse
+	never,
+	never,
+	GetMonthRevenueResponse
 >('/metrics/month-receipt', () => {
-  return HttpResponse.json({
-    receipt: 4000000,
-    diffFromLastMonth: 10,
-  })
+	return HttpResponse.json({
+		receipt: 4000000,
+		diffFromLastMonth: 10,
+	})
 })

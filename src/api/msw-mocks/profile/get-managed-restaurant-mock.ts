@@ -2,12 +2,12 @@ import type { GetManagedRestaurantResponsePick } from '@/api/get/orders/get-mana
 import { http, HttpResponse } from 'msw'
 
 export const getManagedRestaurantMock = http.get<
-  never,
-  never,
-  GetManagedRestaurantResponsePick
+	never,
+	never,
+	GetManagedRestaurantResponsePick
 >('/managed-restaurant', () => {
-  return HttpResponse.json({
-    name: 'Mexican Suzano',
-    description: 'Melhor mexicano de suzano',
-  })
+	return HttpResponse.json({
+		name: 'Mexican Suzano',
+		description: 'Melhor mexicano de suzano',
+	})
 })

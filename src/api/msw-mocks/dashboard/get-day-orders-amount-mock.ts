@@ -2,12 +2,12 @@ import type { GetDayOrdersAmountResponse } from '@/api/get/dashboard/get-day-ord
 import { http, HttpResponse } from 'msw'
 
 export const getDayOrdersAmountMock = http.get<
-  never,
-  never,
-  GetDayOrdersAmountResponse
+	never,
+	never,
+	GetDayOrdersAmountResponse
 >('/metrics/day-orders-amount', () => {
-  return HttpResponse.json({
-    amount: 90,
-    diffFromYesterday: -5,
-  })
+	return HttpResponse.json({
+		amount: 90,
+		diffFromYesterday: -5,
+	})
 })
