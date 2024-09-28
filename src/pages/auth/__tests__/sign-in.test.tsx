@@ -12,18 +12,29 @@ import { userEvent } from '@testing-library/user-event'
 import { HelmetProvider } from 'react-helmet-async'
 import { MemoryRouter } from 'react-router-dom'
 
+import { signIn } from '@/api/post/sign-in'
 import { queryClient } from '@/lib/react-query'
 
 import { toast } from 'sonner'
+import { vi } from 'vitest'
 import { SignIn } from '../sign-in'
 
-const handleSubmitForm = vi.fn()
-const authenticateMock = vi.fn()
+// Mock the signIn API function and the toast functions
+vi.mock('@/api/post/sign-in', () => ({
+	signIn: vi.fn(),
+}))
+
+vi.mock('sonner', () => ({
+	toast: {
+		success: vi.fn(),
+		error: vi.fn(),
+	},
+}))
 
 describe('<SignIn />', () => {
 	beforeEach(() => {
-		handleSubmitForm.mockClear()
-		authenticateMock.mockClear()
+		// Clear all mock history before each test
+		vi.clearAllMocks()
 	})
 
 	it('should set default email input value if email is present on search params', () => {
@@ -77,74 +88,6 @@ describe('<SignIn />', () => {
 		expect(errorMessage).toBeInTheDocument()
 	})
 
-	it('deve enviar o formulário e mostrar um toast de sucesso', async () => {
-		// authenticateMock.mockResolvedValueOnce(new Request('/Jr5wA@example.com'))
-
-		render(<SignIn />, {
-			wrapper: ({ children }) => {
-				return (
-					<HelmetProvider>
-						<QueryClientProvider client={queryClient}>
-							<MemoryRouter initialEntries={['/user/sign-in']}>
-								{children}
-							</MemoryRouter>
-						</QueryClientProvider>
-					</HelmetProvider>
-				)
-			},
-		})
-
-		const emailInput = screen.getByLabelText('Seu e-mail')
-		const submitButton = screen.getByRole('button', {
-			name: /acessar painel/i,
-		})
-
-		await userEvent.type(emailInput, 'Jr5wA@example.com')
-		await userEvent.click(submitButton)
-
-		waitFor(() => {
-			expect(authenticateMock).toHaveBeenCalledWith({
-				email: 'Jr5wA@example.com',
-			})
-			expect(toast.success).toHaveBeenCalledWith('Link de autenticação enviado')
-		})
-	})
-
-	it('deve mostrar um toast de erro se a autenticação falhar', async () => {
-		authenticateMock.mockRejectedValueOnce(
-			new Error('Erro ao enviar o link de autenticação'),
-		)
-
-		render(<SignIn />, {
-			wrapper: ({ children }) => (
-				<HelmetProvider>
-					<MemoryRouter
-						initialEntries={['/auth/sign-in?email=test@example.com']}
-					>
-						<QueryClientProvider client={queryClient}>
-							{children}
-						</QueryClientProvider>
-					</MemoryRouter>
-				</HelmetProvider>
-			),
-		})
-
-		const emailInput = screen.getByLabelText('Seu e-mail')
-		const submitButton = screen.getByRole('button', { name: /acessar painel/i })
-
-		await userEvent.type(emailInput, 'test@example.com')
-		await userEvent.click(submitButton)
-
-		waitFor(() => {
-			expect(authenticateMock).toHaveBeenCalledWith({
-				email: 'test@example.com',
-			})
-			expect(toast.error).toHaveBeenCalledWith(
-				'Erro ao enviar o link de autenticação',
-			)
-		})
-	})
-
 	it('should render the "Novo estabelecimento" link', () => {
 		render(<SignIn />, {
 			wrapper: ({ children }) => {
@@ -168,5 +111,97 @@ describe('<SignIn />', () => {
 		waitFor(() => {
 			expect(window.location.pathname).toBe('/user/sign-up')
 		})
+	})
+
+	it('should call authenticate and show success toast on successful form submission', async () => {
+		// Mock signIn API to resolve successfully
+		;(signIn as ReturnType<typeof vi.fn>).mockResolvedValueOnce({})
+
+		render(<SignIn />, {
+			wrapper: ({ children }) => (
+				<HelmetProvider>
+					<QueryClientProvider client={queryClient}>
+						<MemoryRouter initialEntries={['/user/sign-in']}>
+							{children}
+						</MemoryRouter>
+					</QueryClientProvider>
+				</HelmetProvider>
+			),
+		})
+
+		const emailInput = screen.getByLabelText('Seu e-mail')
+		const submitButton = screen.getByRole('button', { name: /acessar painel/i })
+
+		await userEvent.type(emailInput, 'valid@example.com')
+		await userEvent.click(submitButton)
+
+		await waitFor(() => {
+			expect(signIn).toHaveBeenCalledWith({ email: 'valid@example.com' })
+		})
+
+		await waitFor(() => {
+			expect(toast.success).toHaveBeenCalledWith(
+				'Enviamos um link de autenticação para o seu email',
+				expect.objectContaining({
+					action: expect.any(Object),
+				}),
+			)
+		})
+	})
+
+	it('should show error toast on failed form submission', async () => {
+		// Mock signIn API to reject with an error
+		;(signIn as ReturnType<typeof vi.fn>).mockRejectedValueOnce(
+			new Error('Failed to authenticate'),
+		)
+
+		render(<SignIn />, {
+			wrapper: ({ children }) => (
+				<HelmetProvider>
+					<MemoryRouter initialEntries={['/auth/sign-in']}>
+						<QueryClientProvider client={queryClient}>
+							{children}
+						</QueryClientProvider>
+					</MemoryRouter>
+				</HelmetProvider>
+			),
+		})
+
+		const emailInput = screen.getByLabelText('Seu e-mail')
+		const submitButton = screen.getByRole('button', { name: /acessar painel/i })
+
+		await userEvent.type(emailInput, 'valid@example.com')
+		await userEvent.click(submitButton)
+
+		await waitFor(() => {
+			expect(toast.error).toHaveBeenCalledWith(
+				'Erro ao enviar o link de autenticação',
+			)
+		})
+	})
+
+	it('should reset form after successful submission', async () => {
+		// Mock signIn API to resolve successfully
+		;(signIn as ReturnType<typeof vi.fn>).mockResolvedValueOnce({})
+
+		render(<SignIn />, {
+			wrapper: ({ children }) => (
+				<HelmetProvider>
+					<QueryClientProvider client={queryClient}>
+						<MemoryRouter initialEntries={['/user/sign-in']}>
+							{children}
+						</MemoryRouter>
+					</QueryClientProvider>
+				</HelmetProvider>
+			),
+		})
+
+		const emailInput = screen.getByLabelText('Seu e-mail')
+		const submitButton = screen.getByRole('button', { name: /acessar painel/i })
+
+		await userEvent.type(emailInput, 'valid@example.com')
+		await userEvent.click(submitButton)
+
+		expect(emailInput).toHaveValue('')
 	})
 })
