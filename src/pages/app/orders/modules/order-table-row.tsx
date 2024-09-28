@@ -29,7 +29,7 @@ import { OrderStatus, OrderStatusType } from './order-status'
 
 dayjs.extend(relativeTimes)
 
-interface OrderTableRowProps {
+export interface OrderTableRowProps {
 	order: {
 		orderId: string
 		createdAt: string
