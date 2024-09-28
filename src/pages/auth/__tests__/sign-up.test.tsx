@@ -30,15 +30,16 @@ const renderComponent = () =>
 	})
 
 describe('<SignUp />', () => {
-	it('deve renderizar todos os campos do formulário', () => {
+	it('should render form fields correctly', () => {
 		renderComponent()
+
 		expect(screen.getByLabelText('Nome do restaurante')).toBeInTheDocument()
 		expect(screen.getByLabelText('Nome do gerente')).toBeInTheDocument()
 		expect(screen.getByLabelText('Seu e-mail')).toBeInTheDocument()
 		expect(screen.getByLabelText('Seu telefone')).toBeInTheDocument()
 	})
 
-	it('deve exibir erro quando o e-mail for inválido', async () => {
+	it('should show error message when submitting form with invalid email', async () => {
 		renderComponent()
 
 		const emailInput = screen.getByLabelText('Seu e-mail')
@@ -54,7 +55,7 @@ describe('<SignUp />', () => {
 		})
 	})
 
-	it('deve chamar registerRestaurant quando o formulário é submetido com sucesso', async () => {
+	it('should call registerRestaurant when the form is successfully submitted', async () => {
 		renderComponent()
 
 		const restaurantNameInput = screen.getByLabelText('Nome do restaurante')
@@ -82,7 +83,7 @@ describe('<SignUp />', () => {
 		})
 	})
 
-	it('deve exibir mensagem de sucesso quando o registro é feito com sucesso', async () => {
+	it('should display success message when registration is successful', async () => {
 		;(registerRestaurant as ReturnType<typeof vi.fn>).mockResolvedValueOnce({
 			status: 200,
 		})
@@ -110,18 +111,29 @@ describe('<SignUp />', () => {
 		})
 	})
 
-	it('deve exibir mensagem de erro quando o registro falha', async () => {
+	it('should display error message when registration fails', async () => {
+		// Mockando a função para simular uma falha
 		;(registerRestaurant as ReturnType<typeof vi.fn>).mockRejectedValueOnce(
 			new Error('Erro ao registrar'),
 		)
 		renderComponent()
 
+		const restaurantNameInput = screen.getByLabelText('Nome do restaurante')
+		const managerNameInput = screen.getByLabelText('Nome do gerente')
+		const emailInput = screen.getByLabelText('Seu e-mail')
+		const phoneInput = screen.getByLabelText('Seu telefone')
 		const submitButton = screen.getByRole('button', {
 			name: /finalizar cadastro/i,
 		})
 
+		await userEvent.type(restaurantNameInput, 'Restaurante Teste')
+		await userEvent.type(managerNameInput, 'Gerente Teste')
+		await userEvent.type(emailInput, 'teste@exemplo.com')
+		await userEvent.type(phoneInput, '123456789')
+
 		await userEvent.click(submitButton)
 
+		// Verificando se a mensagem de erro é exibida
 		waitFor(() => {
 			expect(
 				screen.getByText('Erro ao registrar o estabelecimento'),
