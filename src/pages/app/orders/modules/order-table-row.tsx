@@ -5,7 +5,6 @@ import dayjs from 'dayjs'
 import relativeTimes from 'dayjs/plugin/relativeTime'
 import { ArrowRight, Ban, Search } from 'lucide-react'
 import { useMemo, useState } from 'react'
-import { toast } from 'sonner'
 
 import { getOrderDetails } from '@/api/get/orders/get-order-details'
 import type { GetOrdersResponse } from '@/api/get/orders/get-orders'
@@ -24,6 +23,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { TableCell, TableRow } from '@/components/ui/table'
 import { formatPrice } from '@/utils/format-price'
 
+import { handleCopyClick } from '@/utils/handle-copy-click'
 import { OrderDetails } from './order-details'
 import { OrderStatus, OrderStatusType } from './order-status'
 
@@ -41,7 +41,7 @@ export interface OrderTableRowProps {
 
 export const OrderTableRow = ({ order }: OrderTableRowProps) => {
 	const [isDetailsOpen, setIsDetailsOpen] = useState(false)
-	const [copied, setCopied] = useState(false)
+	const [isCopied, setIsCopied] = useState(false)
 	const queryClient = useQueryClient()
 
 	const { data: quantitiesOfItems, isLoading } = useQuery({
@@ -112,12 +112,10 @@ export const OrderTableRow = ({ order }: OrderTableRowProps) => {
 			},
 		})
 
-	const handleCopyClick = (isCopied: boolean) => {
-		navigator.clipboard.writeText(order.orderId).then(() => {
-			setCopied(isCopied)
-
-			toast.success('Id copiado para a área de transferência')
-		})
+	const handleButtonClick = () => {
+		handleCopyClick(order.orderId)
+		setIsCopied(true)
+		console.log('copied', isCopied)
 	}
 
 	const quantityOfItensForOrder = useMemo(() => {
@@ -165,7 +163,7 @@ export const OrderTableRow = ({ order }: OrderTableRowProps) => {
 							<div className='space-y-1'>
 								<h4 className='text-sm font-semibold'>Copie o id do pedido:</h4>
 								<Button
-									onClick={() => handleCopyClick(copied)}
+									onClick={handleButtonClick}
 									type='button'
 									variant='ghost'
 								>
