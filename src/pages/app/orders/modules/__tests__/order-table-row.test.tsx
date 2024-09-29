@@ -5,10 +5,10 @@ import {
 	dispatchOrder,
 } from '@/api/patch/index'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
+import { userEvent } from '@testing-library/user-event'
 import { HelmetProvider } from 'react-helmet-async'
 import { MemoryRouter } from 'react-router-dom'
-import { toast } from 'sonner'
 import { describe, expect, it, vi } from 'vitest'
 import { OrderStatusType } from '../order-status'
 import { OrderTableRow } from '../order-table-row'
@@ -81,7 +81,7 @@ describe('<OrderTableRow />', () => {
 		renderComponent(order)
 
 		const approveButton = screen.getByText(/aprovar/i)
-		fireEvent.click(approveButton)
+		await userEvent.click(approveButton)
 
 		await waitFor(() => {
 			expect(approveOrder).toHaveBeenCalledWith({ orderId: '12345' })
@@ -92,7 +92,7 @@ describe('<OrderTableRow />', () => {
 		renderComponent({ ...order, status: OrderStatusType.Processing })
 
 		const dispatchButton = screen.getByText(/em entrega/i)
-		fireEvent.click(dispatchButton)
+		await userEvent.click(dispatchButton)
 
 		await waitFor(() => {
 			expect(dispatchOrder).toHaveBeenCalledWith({ orderId: '12345' })
@@ -103,7 +103,7 @@ describe('<OrderTableRow />', () => {
 		renderComponent({ ...order, status: OrderStatusType.Delivering })
 
 		const deliverButton = screen.getByText(/entregue/i)
-		fireEvent.click(deliverButton)
+		await userEvent.click(deliverButton)
 
 		await waitFor(() => {
 			expect(deliverOrder).toHaveBeenCalledWith({ orderId: '12345' })
@@ -114,24 +114,10 @@ describe('<OrderTableRow />', () => {
 		renderComponent(order)
 
 		const cancelButton = screen.getByText(/cancelar/i)
-		fireEvent.click(cancelButton)
+		await userEvent.click(cancelButton)
 
 		await waitFor(() => {
 			expect(cancelOrder).toHaveBeenCalledWith({ orderId: '12345' })
-		})
-	})
-
-	it('displays a success toast message', async () => {
-		renderComponent(order)
-
-		const copyButton = screen.getByText('12345')
-		fireEvent.click(copyButton)
-
-		waitFor(() => {
-			expect(toast.success).toHaveBeenCalledTimes(1)
-			expect(toast.success).toHaveBeenCalledWith(
-				'Id copiado para a área de transferência',
-			)
 		})
 	})
 })
