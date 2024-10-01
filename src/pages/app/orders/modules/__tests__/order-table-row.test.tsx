@@ -59,6 +59,10 @@ const renderComponent = (order: {
 	})
 
 describe('<OrderTableRow />', () => {
+	beforeEach(() => {
+		vi.clearAllMocks()
+	})
+
 	const order = {
 		orderId: '12345',
 		createdAt: new Date().toISOString(),
