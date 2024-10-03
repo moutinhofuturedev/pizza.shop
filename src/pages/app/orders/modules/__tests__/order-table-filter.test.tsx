@@ -116,4 +116,64 @@ describe('<OrderTableFilter />', () => {
 			screen.getByRole('button', { name: /Filtrar pedidos/i }),
 		).toBeInTheDocument()
 	})
+
+	it('should call setSearchParams with empty values when filters are empty', async () => {
+		render(
+			<MemoryRouter>
+				<OrderTableFilter />
+			</MemoryRouter>,
+		)
+
+		// Simula a submissão sem definir filtros
+		fireEvent.change(screen.getByPlaceholderText('Id do pedido'), {
+			target: { value: '' },
+		})
+		fireEvent.change(screen.getByPlaceholderText('Nome do cliente'), {
+			target: { value: '' },
+		})
+
+		// Simula a seleção de status "all" que corresponde ao padrão
+		fireEvent.click(screen.getByRole('button', { name: /Filtrar pedidos/i }))
+
+		await waitFor(() => {
+			expect(mockSetSearchParams).toHaveBeenCalledWith(expect.any(Function))
+		})
+
+		// Verifica se os valores foram removidos quando não estão presentes
+		const params = new URLSearchParams()
+		mockSetSearchParams.mock.calls[0][0](params) // Executa a função de atualização dos parâmetros
+
+		expect(params.get('orderId')).toBeNull() // `orderId` deveria ser deletado
+		expect(params.get('customerName')).toBeNull() // `customerName` deveria ser deletado
+	})
+
+	it('should delete only specific filter when one is empty', async () => {
+		render(
+			<MemoryRouter>
+				<OrderTableFilter />
+			</MemoryRouter>,
+		)
+
+		// Simula a entrada parcial dos filtros
+		fireEvent.change(screen.getByPlaceholderText('Id do pedido'), {
+			target: { value: '123' },
+		})
+		fireEvent.change(screen.getByPlaceholderText('Nome do cliente'), {
+			target: { value: '' }, // Este filtro está vazio, deve ser removido
+		})
+
+		fireEvent.click(screen.getByRole('button', { name: /Filtrar pedidos/i }))
+
+		await waitFor(() => {
+			expect(mockSetSearchParams).toHaveBeenCalledWith(expect.any(Function))
+		})
+
+		// Verifica se os valores foram aplicados e removidos corretamente
+		const params = new URLSearchParams()
+		mockSetSearchParams.mock.calls[0][0](params) // Executa a função de atualização dos parâmetros
+
+		expect(params.get('orderId')).toBe('123') // `orderId` deve estar definido
+		expect(params.get('customerName')).toBeNull() // `customerName` deve ser deletado
+		expect(params.get('status')).toBe('all') // `status` deve ser definido como padrão
+	})
 })
