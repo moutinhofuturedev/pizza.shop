@@ -27,7 +27,7 @@ export const SignUp = () => {
 		register,
 		handleSubmit,
 		reset,
-		formState: { isSubmitting },
+		formState: { isSubmitting, errors },
 	} = useForm<SignUpFormSchema>({
 		resolver: zodResolver(signUpFormSchema),
 		defaultValues: {
@@ -101,6 +101,7 @@ export const SignUp = () => {
 					<div className='space-y-1'>
 						<Label htmlFor='email'>Seu e-mail</Label>
 						<Input id='email' type='email' {...register('email')} />
+						<p className='text-sm text-red-500'>{errors.email?.message}</p>
 					</div>
 
 					<div className='space-y-1'>
