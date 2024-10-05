@@ -1,9 +1,8 @@
-import { render, screen, waitFor } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { userEvent } from '@testing-library/user-event'
 import { MemoryRouter, useSearchParams } from 'react-router-dom'
 import { vi } from 'vitest'
 import { OrderTableFilter } from '../order-table-filter'
-
-import { userEvent } from '@testing-library/user-event'
 
 // Mock para useSearchParams
 vi.mock('react-router-dom', async () => {
@@ -83,9 +82,7 @@ describe('<OrderTableFilter />', () => {
 		)
 
 		// Simula o clique no botão de limpar filtros
-		await userEvent.click(
-			screen.getByRole('button', { name: /Remover filtros/i }),
-		)
+		fireEvent.click(screen.getByRole('button', { name: /Remover filtros/i }))
 
 		await waitFor(() => {
 			expect(mockSetSearchParams).toHaveBeenCalledWith(expect.any(Function))
@@ -123,34 +120,6 @@ describe('<OrderTableFilter />', () => {
 		).toBeInTheDocument()
 	})
 
-	it('should call setSearchParams with empty values when filters are empty', async () => {
-		render(
-			<MemoryRouter>
-				<OrderTableFilter />
-			</MemoryRouter>,
-		)
-
-		// Simula a submissão sem definir filtros
-		userEvent.type(screen.getByPlaceholderText('Id do pedido'), '')
-		userEvent.type(screen.getByPlaceholderText('Nome do cliente'), '')
-
-		// Simula a seleção de status "all" que corresponde ao padrão
-		await userEvent.click(
-			screen.getByRole('button', { name: /Filtrar pedidos/i }),
-		)
-
-		await waitFor(() => {
-			expect(mockSetSearchParams).toHaveBeenCalledWith(expect.any(Function))
-		})
-
-		// Verifica se os valores foram removidos quando não estão presentes
-		const params = new URLSearchParams()
-		mockSetSearchParams.mock.calls[0][0](params) // Executa a função de atualização dos parâmetros
-
-		expect(params.get('orderId')).toBeNull() // `orderId` deveria ser deletado
-		expect(params.get('customerName')).toBeNull() // `customerName` deveria ser deletado
-	})
-
 	it('should delete only specific filter when one is empty', async () => {
 		render(
 			<MemoryRouter>
@@ -159,10 +128,14 @@ describe('<OrderTableFilter />', () => {
 		)
 
 		// Simula a entrada parcial dos filtros
-		await userEvent.type(screen.getByPlaceholderText('Id do pedido'), '123')
-		userEvent.type(screen.getByPlaceholderText('Nome do cliente'), '')
+		fireEvent.change(screen.getByPlaceholderText('Id do pedido'), {
+			target: { value: '123' },
+		})
+		fireEvent.change(screen.getByPlaceholderText('Nome do cliente'), {
+			target: { value: '' }, // Este filtro está vazio, deve ser removido
+		})
 
-		userEvent.click(screen.getByRole('button', { name: /Filtrar pedidos/i }))
+		fireEvent.click(screen.getByRole('button', { name: /Filtrar pedidos/i }))
 
 		await waitFor(() => {
 			expect(mockSetSearchParams).toHaveBeenCalledWith(expect.any(Function))
@@ -175,5 +148,35 @@ describe('<OrderTableFilter />', () => {
 		expect(params.get('orderId')).toBe('123') // `orderId` deve estar definido
 		expect(params.get('customerName')).toBeNull() // `customerName` deve ser deletado
 		expect(params.get('status')).toBe('all') // `status` deve ser definido como padrão
+	})
+
+	it('should call setSearchParams with empty values when filters are empty', async () => {
+		render(
+			<MemoryRouter>
+				<OrderTableFilter />
+			</MemoryRouter>,
+		)
+
+		// Simula a submissão sem definir filtros
+		fireEvent.change(screen.getByPlaceholderText('Id do pedido'), {
+			target: { value: '' },
+		})
+		fireEvent.change(screen.getByPlaceholderText('Nome do cliente'), {
+			target: { value: '' },
+		})
+
+		// Simula a seleção de status "all" que corresponde ao padrão
+		fireEvent.click(screen.getByRole('button', { name: /Filtrar pedidos/i }))
+
+		await waitFor(() => {
+			expect(mockSetSearchParams).toHaveBeenCalledWith(expect.any(Function))
+		})
+
+		// Verifica se os valores foram removidos quando não estão presentes
+		const params = new URLSearchParams()
+		mockSetSearchParams.mock.calls[0][0](params) // Executa a função de atualização dos parâmetros
+
+		expect(params.get('orderId')).toBeNull() // `orderId` deveria ser deletado
+		expect(params.get('customerName')).toBeNull() // `customerName` deveria ser deletado
 	})
 })
