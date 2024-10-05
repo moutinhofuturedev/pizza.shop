@@ -1,7 +1,9 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import { MemoryRouter, useSearchParams } from 'react-router-dom'
 import { vi } from 'vitest'
 import { OrderTableFilter } from '../order-table-filter'
+
+import { userEvent } from '@testing-library/user-event'
 
 // Mock para useSearchParams
 vi.mock('react-router-dom', async () => {
@@ -50,13 +52,15 @@ describe('<OrderTableFilter />', () => {
 		)
 
 		// Simula a entrada dos filtros
-		fireEvent.change(screen.getByPlaceholderText('Id do pedido'), {
-			target: { value: '123' },
-		})
-		fireEvent.change(screen.getByPlaceholderText('Nome do cliente'), {
-			target: { value: 'John Doe' },
-		})
-		fireEvent.click(screen.getByRole('button', { name: /Filtrar pedidos/i }))
+		await userEvent.type(screen.getByPlaceholderText('Id do pedido'), '123')
+		await userEvent.type(
+			screen.getByPlaceholderText('Nome do cliente'),
+			'John Doe',
+		)
+
+		await userEvent.click(
+			screen.getByRole('button', { name: /Filtrar pedidos/i }),
+		)
 
 		await waitFor(() => {
 			expect(mockSetSearchParams).toHaveBeenCalledWith(expect.any(Function))
@@ -79,7 +83,9 @@ describe('<OrderTableFilter />', () => {
 		)
 
 		// Simula o clique no botão de limpar filtros
-		fireEvent.click(screen.getByRole('button', { name: /Remover filtros/i }))
+		await userEvent.click(
+			screen.getByRole('button', { name: /Remover filtros/i }),
+		)
 
 		await waitFor(() => {
 			expect(mockSetSearchParams).toHaveBeenCalledWith(expect.any(Function))
@@ -125,15 +131,13 @@ describe('<OrderTableFilter />', () => {
 		)
 
 		// Simula a submissão sem definir filtros
-		fireEvent.change(screen.getByPlaceholderText('Id do pedido'), {
-			target: { value: '' },
-		})
-		fireEvent.change(screen.getByPlaceholderText('Nome do cliente'), {
-			target: { value: '' },
-		})
+		userEvent.type(screen.getByPlaceholderText('Id do pedido'), '')
+		userEvent.type(screen.getByPlaceholderText('Nome do cliente'), '')
 
 		// Simula a seleção de status "all" que corresponde ao padrão
-		fireEvent.click(screen.getByRole('button', { name: /Filtrar pedidos/i }))
+		await userEvent.click(
+			screen.getByRole('button', { name: /Filtrar pedidos/i }),
+		)
 
 		await waitFor(() => {
 			expect(mockSetSearchParams).toHaveBeenCalledWith(expect.any(Function))
@@ -155,14 +159,10 @@ describe('<OrderTableFilter />', () => {
 		)
 
 		// Simula a entrada parcial dos filtros
-		fireEvent.change(screen.getByPlaceholderText('Id do pedido'), {
-			target: { value: '123' },
-		})
-		fireEvent.change(screen.getByPlaceholderText('Nome do cliente'), {
-			target: { value: '' }, // Este filtro está vazio, deve ser removido
-		})
+		await userEvent.type(screen.getByPlaceholderText('Id do pedido'), '123')
+		userEvent.type(screen.getByPlaceholderText('Nome do cliente'), '')
 
-		fireEvent.click(screen.getByRole('button', { name: /Filtrar pedidos/i }))
+		userEvent.click(screen.getByRole('button', { name: /Filtrar pedidos/i }))
 
 		await waitFor(() => {
 			expect(mockSetSearchParams).toHaveBeenCalledWith(expect.any(Function))
