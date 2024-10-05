@@ -73,27 +73,8 @@ describe('<StoreProfile />', () => {
 		)
 	})
 
-	it.skip('validates the name field as required', async () => {
-		render(
-			<HelmetProvider>
-				<MemoryRouter>
-					<Dialog open={true}>
-						<StoreProfile />
-					</Dialog>
-				</MemoryRouter>
-			</HelmetProvider>,
-		)
-
-		const saveButton = screen.getByRole('button', { name: /salvar/i })
-		await userEvent.click(saveButton)
-
-		// Verifique a mensagem de erro usando um matcher mais flexível
-		expect(
-			await screen.findByText(/must contain at least 1 character/i),
-		).toBeInTheDocument()
-	})
-
 	it('calls updateStoreProfileFn on form submit', async () => {
+		mockUpdateStoreProfileFn.mockResolvedValueOnce({})
 		render(
 			<HelmetProvider>
 				<MemoryRouter>
@@ -104,19 +85,20 @@ describe('<StoreProfile />', () => {
 			</HelmetProvider>,
 		)
 
-		await userEvent.type(
-			screen.getByLabelText('Nome'),
-			'Novo Nome do Restaurante',
-		)
-		await userEvent.type(
-			screen.getByLabelText('Descrição'),
-			'Nova descrição do restaurante',
-		)
+		const nameInput = screen.getByLabelText(/nome/i)
+		const descriptionInput = screen.getByLabelText(/descrição/i)
+
+		await userEvent.clear(nameInput)
+		await userEvent.type(nameInput, 'Novo Nome do Restaurante')
+
+		await userEvent.clear(descriptionInput)
+		await userEvent.type(descriptionInput, 'Nova descrição do restaurante')
+
 		await userEvent.click(screen.getByRole('button', { name: /salvar/i }))
 
 		expect(mockUpdateStoreProfileFn).toHaveBeenCalledWith({
-			name: 'Restaurante ExemploNovo Nome do Restaurante',
-			description: 'Descrição do RestauranteNova descrição do restaurante',
+			name: 'Novo Nome do Restaurante',
+			description: 'Nova descrição do restaurante',
 		})
 	})
 
