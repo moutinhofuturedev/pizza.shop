@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
 import { userEvent } from '@testing-library/user-event'
 import { MemoryRouter, useSearchParams } from 'react-router-dom'
 import { vi } from 'vitest'
@@ -82,7 +82,9 @@ describe('<OrderTableFilter />', () => {
 		)
 
 		// Simula o clique no botão de limpar filtros
-		fireEvent.click(screen.getByRole('button', { name: /Remover filtros/i }))
+		await userEvent.click(
+			screen.getByRole('button', { name: /Remover filtros/i }),
+		)
 
 		await waitFor(() => {
 			expect(mockSetSearchParams).toHaveBeenCalledWith(expect.any(Function))
@@ -128,14 +130,12 @@ describe('<OrderTableFilter />', () => {
 		)
 
 		// Simula a entrada parcial dos filtros
-		fireEvent.change(screen.getByPlaceholderText('Id do pedido'), {
-			target: { value: '123' },
-		})
-		fireEvent.change(screen.getByPlaceholderText('Nome do cliente'), {
-			target: { value: '' }, // Este filtro está vazio, deve ser removido
-		})
+		await userEvent.type(screen.getByPlaceholderText('Id do pedido'), '123')
+		await userEvent.clear(screen.getByPlaceholderText('Nome do cliente'))
 
-		fireEvent.click(screen.getByRole('button', { name: /Filtrar pedidos/i }))
+		await userEvent.click(
+			screen.getByRole('button', { name: /Filtrar pedidos/i }),
+		)
 
 		await waitFor(() => {
 			expect(mockSetSearchParams).toHaveBeenCalledWith(expect.any(Function))
@@ -158,15 +158,13 @@ describe('<OrderTableFilter />', () => {
 		)
 
 		// Simula a submissão sem definir filtros
-		fireEvent.change(screen.getByPlaceholderText('Id do pedido'), {
-			target: { value: '' },
-		})
-		fireEvent.change(screen.getByPlaceholderText('Nome do cliente'), {
-			target: { value: '' },
-		})
+		await userEvent.clear(screen.getByPlaceholderText('Id do pedido'))
+		await userEvent.clear(screen.getByPlaceholderText('Nome do cliente'))
 
 		// Simula a seleção de status "all" que corresponde ao padrão
-		fireEvent.click(screen.getByRole('button', { name: /Filtrar pedidos/i }))
+		await userEvent.click(
+			screen.getByRole('button', { name: /Filtrar pedidos/i }),
+		)
 
 		await waitFor(() => {
 			expect(mockSetSearchParams).toHaveBeenCalledWith(expect.any(Function))
